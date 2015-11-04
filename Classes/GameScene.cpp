@@ -468,6 +468,16 @@ void CGameScene::CreateTouchListener()
 	auto touchListener = EventListenerTouchOneByOne::create();
 	touchListener->onTouchBegan = [&](Touch* touch, Event* event)
 	{
+		//点击需要有间隔，避免Beat次数或六边形动作还没执行完
+		//就开始执行下次动作，导致出现了缩放。
+		if (!m_bCanClicked)
+		{
+			return false;
+		}
+
+		//设置不可点击
+		m_bCanClicked = false;
+
 		//获取的当前触摸的目标
 		auto target = static_cast<Sprite*>(event->getCurrentTarget());
 
@@ -578,8 +588,8 @@ void CGameScene::OnHexagonClick(int iRowIndex, int iColIndex)
 	//更新Beat次数
 	ChangeBeatTime();
 
-	//0.1秒后检查是否通关
-	scheduleOnce(schedule_selector(CGameScene::CheckGameOver), 0.15f);
+	//0.32秒后检查是否通关
+	scheduleOnce(schedule_selector(CGameScene::CheckGameOver), 0.30f);
 }
 
 
@@ -658,7 +668,7 @@ void CGameScene::ChangeBeatTime()
 
 	bool bExtraFlag = (m_iBeatTime < 0);
 	//设置十位缩放动作
-	auto decadeScaleBy = CCScaleBy::create(0.1f, 2);
+	auto decadeScaleBy = CCScaleBy::create(0.13f, 2);
 	auto decadeScaleBack = decadeScaleBy->reverse();
 	m_pBeatDecadeSpr->runAction(
 		Sequence::create(
@@ -669,7 +679,7 @@ void CGameScene::ChangeBeatTime()
 		)
 	);
 	//设置个位缩放动作
-	auto unitScaleBy = CCScaleBy::create(0.1f, 2);
+	auto unitScaleBy = CCScaleBy::create(0.13f, 2);
 	auto unitScaleBack = unitScaleBy->reverse();
 	m_pBeatUnitSpr->runAction(
 		Sequence::create(
@@ -708,6 +718,9 @@ Size CGameScene::GetHexagonSize()
 
 void CGameScene::CheckGameOver(float dt)
 {
+	//设置可点击
+	m_bCanClicked = true;
+
 	bool bWinFlag = true;
 	for (int i = m_iValidRowStart; i < m_iValidRowStart + m_iValidRowNum; i++)
 	{

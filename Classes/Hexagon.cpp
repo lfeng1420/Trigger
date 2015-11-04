@@ -189,9 +189,9 @@ void CHexagon::Change(bool bClickSelfFlag, int iArrowType)
 	}
 
 	//缩放+淡出
-	auto efferScaleBy = ScaleBy::create(0.1f, 5.0f);
+	auto efferScaleBy = ScaleBy::create(0.13f, 5.0f);
 	auto effScaleBack = efferScaleBy->reverse();
-	auto efferFadeOut = FadeOut::create(0.1f);
+	auto efferFadeOut = FadeOut::create(0.13f);
 	//设置透明度
 	m_pEfferSprite->setOpacity(255);
 	m_pEfferSprite->setVisible(true);
@@ -204,7 +204,7 @@ void CHexagon::Change(bool bClickSelfFlag, int iArrowType)
 		)
 	);
 
-	auto gatherScaleBy = ScaleBy::create(0.1f, 0.05f);
+	auto gatherScaleBy = ScaleBy::create(0.13f, 0.05f);
 	auto gatherScaleBack = gatherScaleBy->reverse();
 	m_pGatherNode->runAction(
 		Sequence::create(

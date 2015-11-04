@@ -116,6 +116,8 @@ private:
 
 	cocos2d::Size m_visibleSize;	//可视区域大小
 
+	bool m_bCanClicked;				//可点击标志
+
 public:
 	CGameScene();
 	~CGameScene();
