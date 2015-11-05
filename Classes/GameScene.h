@@ -7,14 +7,14 @@
 class UserItemSpr
 {
 private:
-	int m_iType;					//¼ıÍ·ÀàĞÍ
+	int m_iType;					//ç®­å¤´ç±»å‹
 
-	bool m_bValid;					//ÊÇ·ñÓĞĞ§
+	bool m_bValid;					//æ˜¯å¦æœ‰æ•ˆ
 
 public:
-	cocos2d::Sprite* m_pArrowSpr;	//¼ıÍ·Sprite
+	cocos2d::Sprite* m_pArrowSpr;	//ç®­å¤´Sprite
 
-	cocos2d::Sprite* m_pClickSpr;	//µã»÷Ê±Ìí¼ÓµÄ¿òSprite
+	cocos2d::Sprite* m_pClickSpr;	//ç‚¹å‡»æ—¶æ·»åŠ çš„æ¡†Sprite
 
 	UserItemSpr() : m_pArrowSpr(nullptr), m_pClickSpr(nullptr),
 					m_iType(0), m_bValid(false)
@@ -22,43 +22,43 @@ public:
 
 	}
 
-	//ÊÇ·ñÓĞĞ§
+	//æ˜¯å¦æœ‰æ•ˆ
 	bool IsValid()
 	{
 		return m_bValid;
 	}
 
-	//»ñÈ¡¼ıÍ·ÀàĞÍ
+	//è·å–ç®­å¤´ç±»å‹
 	int GetArrowType()
 	{
 		return m_iType;
 	}
 
-	//ÉèÖÃ¼ıÍ·ÀàĞÍ
+	//è®¾ç½®ç®­å¤´ç±»å‹
 	void SetArrowType(int iType)
 	{
 		m_iType = iType;
 	}
 
-	//µã»÷
+	//ç‚¹å‡»
 	void OnClicked()
 	{
 		m_pClickSpr->setVisible(!IsClicked());
 	}
 
-	//È¡Ïûµã»÷
+	//å–æ¶ˆç‚¹å‡»
 	void OnUnclicked()
 	{
 		m_pClickSpr->setVisible(false);
 	}
 
-	//ÊÇ·ñ±»µã»÷
+	//æ˜¯å¦è¢«ç‚¹å‡»
 	bool IsClicked()
 	{
 		return m_pClickSpr->isVisible();
 	}
 
-	//ÒÑÊ¹ÓÃ
+	//å·²ä½¿ç”¨
 	void OnUsed()
 	{
 		m_pArrowSpr->setVisible(false);
@@ -66,13 +66,12 @@ public:
 		m_bValid = false;
 	}
 
-	//ÉèÖÃÊÇ·ñÓĞĞ§
+	//è®¾ç½®æ˜¯å¦æœ‰æ•ˆ
 	void SetValid(bool bValid)
 	{
 		m_bValid = bValid;
 	}
 };
-
 
 
 
@@ -87,36 +86,36 @@ private:
 		BEAT_TIME_LIMIT = -10
 	};
 
-	//Áù±ßĞÎĞòÁĞ
+	//å…­è¾¹å½¢åºåˆ—
 	CHexagon m_arrHexagon[ROW_MAX][COLUMN_MAX];
 
-	int m_iValidRowStart;	//ÓĞĞ§ÆğÊ¼ĞĞË÷Òı£¬µØÍ¼¶¼ÊÇÁ¬ĞøµÄ¼¸ĞĞ×é³ÉµÄ£¬ËùÒÔĞèÒª±£´æÆğÊ¼Ë÷ÒıºÍÊıÁ¿
+	int m_iValidRowStart;	//æœ‰æ•ˆèµ·å§‹è¡Œç´¢å¼•ï¼Œåœ°å›¾éƒ½æ˜¯è¿ç»­çš„å‡ è¡Œç»„æˆçš„ï¼Œæ‰€ä»¥éœ€è¦ä¿å­˜èµ·å§‹ç´¢å¼•å’Œæ•°é‡
 
-	int m_iValidRowNum;		//ÓĞĞ§ĞĞÊı
+	int m_iValidRowNum;		//æœ‰æ•ˆè¡Œæ•°
 
-	int m_iCurTheme;		//µ±Ç°Ö÷Ìâ
+	int m_iCurTheme;		//å½“å‰ä¸»é¢˜
 
-	int m_iCurLevel;		//µ±Ç°¹Ø¿¨
+	int m_iCurLevel;		//å½“å‰å…³å¡
 
-	bool m_bGameState;		//ÓÎÏ·×´Ì¬
+	bool m_bGameState;		//æ¸¸æˆçŠ¶æ€
 
-	int m_iBeatTime;		//Beat´ÎÊı£¬Ğ¡ÓÚ0Ê±±íÊ¾¹Ø¿¨Ô¤ÉèBeat´ÎÊı
+	int m_iBeatTime;		//Beatæ¬¡æ•°ï¼Œå°äº0æ—¶è¡¨ç¤ºå…³å¡é¢„è®¾Beatæ¬¡æ•°
 
-	cocos2d::Vec2 m_fGatherOffset;	//¼¯ºÏhexagon¾ÓÖĞµ÷ÕûµÄÆ«ÒÆ
+	cocos2d::Vec2 m_fGatherOffset;	//é›†åˆhexagonå±…ä¸­è°ƒæ•´çš„åç§»
 
-	cocos2d::Vector<cocos2d::Sprite*> m_vecBeatSpr;	//Beat SpriteÍ¼Ê¾´ÎÊı
+	cocos2d::Vector<cocos2d::Sprite*> m_vecBeatSpr;	//Beat Spriteå›¾ç¤ºæ¬¡æ•°
 
-	int m_iClickUserItemIndex;	//µ±Ç°µã»÷µÄUserItemË÷Òı
+	int m_iClickUserItemIndex;	//å½“å‰ç‚¹å‡»çš„UserItemç´¢å¼•
 
-	UserItemSpr m_oUserItem[5];	//UserItem¼¯ºÏ£¬×î¶à5¸ö
+	UserItemSpr m_oUserItem[5];	//UserItemé›†åˆï¼Œæœ€å¤š5ä¸ª
 
-	cocos2d::Sprite* m_pBeatDecadeSpr;//Beat´ÎÊıÊ®Î»Sprite
+	cocos2d::Sprite* m_pBeatDecadeSpr;//Beatæ¬¡æ•°åä½Sprite
 
-	cocos2d::Sprite* m_pBeatUnitSpr;//Beat´ÎÊı¸öÎ»Sprite
+	cocos2d::Sprite* m_pBeatUnitSpr;//Beatæ¬¡æ•°ä¸ªä½Sprite
 
-	cocos2d::Size m_visibleSize;	//¿ÉÊÓÇøÓò´óĞ¡
+	cocos2d::Size m_visibleSize;	//å¯è§†åŒºåŸŸå¤§å°
 
-	bool m_bCanClicked;				//¿Éµã»÷±êÖ¾
+	bool m_bCanClicked;				//å¯ç‚¹å‡»æ ‡å¿—
 
 public:
 	CGameScene();
@@ -128,67 +127,67 @@ public:
 	//cocos function
 	virtual bool init();
 
-	//ÉèÖÃ¹Ø¿¨
+	//è®¾ç½®å…³å¡
 	void SetupLevel();
 
-	//´´½¨±³¾°
+	//åˆ›å»ºèƒŒæ™¯
 	void CreateBackground();
 
-	//³õÊ¼»¯ÏÔÊ¾¹Ø¿¨ĞÅÏ¢
+	//åˆå§‹åŒ–æ˜¾ç¤ºå…³å¡ä¿¡æ¯
 	float InitLevelInfo();
 
-	//³õÊ¼»¯ÏÔÊ¾Beat´ÎÊıĞÅÏ¢
+	//åˆå§‹åŒ–æ˜¾ç¤ºBeatæ¬¡æ•°ä¿¡æ¯
 	float InitBeatInfo(float fTopHeight);
 
-	//³õÊ¼»¯µØÍ¼
+	//åˆå§‹åŒ–åœ°å›¾
 	void InitHexagon(float fTopHeight, float fBottomHeight);
 
-	//³õÊ¼»¯µ×²¿UserItem²Ëµ¥
+	//åˆå§‹åŒ–åº•éƒ¨UserItemèœå•
 	float CreateUserItemMenu();
 
-	//´´½¨´¥Ãş¼àÌıÆ÷
+	//åˆ›å»ºè§¦æ‘¸ç›‘å¬å™¨
 	void CreateTouchListener();
 
-	//¼ì²éÊÇÄÄ¸öÁù±ßĞÎ±»µã»÷
+	//æ£€æŸ¥æ˜¯å“ªä¸ªå…­è¾¹å½¢è¢«ç‚¹å‡»
 	bool CheckHexagonClick(cocos2d::Vec2 touchPos);
 
-	//Áù±ßĞÎµã»÷´¦Àí
+	//å…­è¾¹å½¢ç‚¹å‡»å¤„ç†
 	void OnHexagonClick(int iRowIndex, int iColIndex);
 
-	//µã»÷°´Å¥ÏìÓ¦
+	//ç‚¹å‡»æŒ‰é’®å“åº”
 	void OnButtonClick(Ref* pSender, int iIndex);
 
-	//UserItemµã»÷ÏìÓ¦
+	//UserItemç‚¹å‡»å“åº”
 	void OnUserItemClick(Ref* pSender, int iIndex);
 
-	//Beat´ÎÊı¸Ä±ä
+	//Beatæ¬¡æ•°æ”¹å˜
 	void ChangeBeatTime();
 
-	//Beat´ÎÊıÖ´ĞĞ¶¯×÷µ÷ÓÃµÄ»Øµ÷º¯Êı£¬bExtraFlag±íÊ¾ÊÇ·ñÊÇ¶îÍâ´ÎÊı£¬¶îÍâ´ÎÊıÓÃºìÉ«±íÊ¾
+	//Beatæ¬¡æ•°æ‰§è¡ŒåŠ¨ä½œè°ƒç”¨çš„å›è°ƒå‡½æ•°ï¼ŒbExtraFlagè¡¨ç¤ºæ˜¯å¦æ˜¯é¢å¤–æ¬¡æ•°ï¼Œé¢å¤–æ¬¡æ•°ç”¨çº¢è‰²è¡¨ç¤º
 	void OnBeatActionCallback(Node* pSender, bool bExtraFlag, int iNum);
 
-	//¼ì²éÓÎÏ·ÊÇ·ñ½áÊø
+	//æ£€æŸ¥æ¸¸æˆæ˜¯å¦ç»“æŸ
 	void CheckGameOver(float dt);
 
-	//Í¨¹Ø
+	//é€šå…³
 	void LevelPass();
 
-	//Ê§°Ü
+	//å¤±è´¥
 	void LevelFail();
 	
-	//»ñÈ¡¸Ä±äÖ®ºóµÄ¼ıÍ·ÀàĞÍ£¬iPos±íÊ¾ÊÇµÚ¼¸¸öÎ»ÖÃ£¬iCurArrowType±íÊ¾µ±Ç°¼ıÍ·ÀàĞÍ
+	//è·å–æ”¹å˜ä¹‹åçš„ç®­å¤´ç±»å‹ï¼ŒiPosè¡¨ç¤ºæ˜¯ç¬¬å‡ ä¸ªä½ç½®ï¼ŒiCurArrowTypeè¡¨ç¤ºå½“å‰ç®­å¤´ç±»å‹
 	int GetChangedArrow(int iPos, int iCurArrowType);
 
-	//µã»÷µÄÎ»ÖÃ°üº¬¼ıÍ·
+	//ç‚¹å‡»çš„ä½ç½®åŒ…å«ç®­å¤´
 	void ChangeWithArrow(int iRowIndex, int iColIndex, int iArrow);
 
-	//µã»÷µÄÎ»ÖÃÃ»ÓĞ¼ıÍ·
+	//ç‚¹å‡»çš„ä½ç½®æ²¡æœ‰ç®­å¤´
 	void ChangeWithoutArrow(int iRowIndex, int iColIndex);
 
-	//»ñÈ¡µ¥¸öÁù±ßĞÎ´óĞ¡
+	//è·å–å•ä¸ªå…­è¾¹å½¢å¤§å°
 	cocos2d::Size GetHexagonSize();
 
-	//¶¨Ê±ÇĞ»»³É¹¦»òÊ§°Ü½çÃæ
+	//å®šæ—¶åˆ‡æ¢æˆåŠŸæˆ–å¤±è´¥ç•Œé¢
 	void OnTimeCallback(Node* pSender, bool bPassFlag);
 
 	CREATE_FUNC(CGameScene);
