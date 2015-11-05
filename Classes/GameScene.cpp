@@ -7,7 +7,6 @@
 #include "FailScene.h"
 #include "MenuScene.h"
 
-
 USING_NS_CC;
 
 CGameScene::CGameScene() : m_iClickUserItemIndex(-1)
