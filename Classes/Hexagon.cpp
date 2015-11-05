@@ -9,7 +9,6 @@ CHexagon::CHexagon() : m_pGatherNode(nullptr), m_pBgSprite(nullptr), m_pNumSprit
 						m_iArrow(HexagonArrow_None), m_iColor(HexagonColor_None),
 						m_iNum(0), m_bValidFlag(false)
 {
-
 }
 
 
@@ -21,8 +20,7 @@ CHexagon::~CHexagon()
 }
 
 
-
-//Createº¯Êı
+//Createå‡½æ•°
 void CHexagon::Init(int iColorAndNum)
 {
 	m_pBgSprite = Sprite::create();
@@ -30,7 +28,7 @@ void CHexagon::Init(int iColorAndNum)
 	m_pNumSprite = Sprite::create();
 	m_pEfferSprite = Sprite::create();
 
-	//´óÓÚ10Ê±ÑÕÉ«Ä¬ÈÏÎª°×É«£¬Êı×ÖÎª×îºóÒ»Î» - 2
+	//å¤§äº10æ—¶é¢œè‰²é»˜è®¤ä¸ºç™½è‰²ï¼Œæ•°å­—ä¸ºæœ€åä¸€ä½ - 2
 	if (iColorAndNum > 10)
 	{
 		int iNum = iColorAndNum - iColorAndNum / 10 * 10 - 1;
@@ -39,17 +37,17 @@ void CHexagon::Init(int iColorAndNum)
 	}
 	else if (iColorAndNum <= 10 && iColorAndNum > HexagonColor_Theme)
 	{
-		//´óÓÚHexagonColor_ThemeÇÒĞ¡ÓÚµÈÓÚ10Ê±ÑÕÉ«Ä¬ÈÏÊÇÖ÷ÌâÉ«£¬Êı×ÖÎªiColorAndNum - 2
+		//å¤§äºHexagonColor_Themeä¸”å°äºç­‰äº10æ—¶é¢œè‰²é»˜è®¤æ˜¯ä¸»é¢˜è‰²ï¼Œæ•°å­—ä¸ºiColorAndNum - 2
 		SetColor(HexagonColor_Theme);
 		SetNum(iColorAndNum - 2);
 	}
 	else
 	{
-		//Ä¬ÈÏÊÇÑÕÉ«
+		//é»˜è®¤æ˜¯é¢œè‰²
 		SetColor(iColorAndNum);
 	}
 
-	//´´½¨MenuItemSprite
+	//åˆ›å»ºMenuItemSprite
 	m_pGatherNode = Node::create();
 	m_pGatherNode->addChild(m_pBgSprite);
 	m_pGatherNode->addChild(m_pArrowSprite);
@@ -59,13 +57,13 @@ void CHexagon::Init(int iColorAndNum)
 	m_pGatherNode->addChild(m_pEfferSprite);
 }
 
-//»ñÈ¡¼ıÍ·ÀàĞÍ
+//è·å–ç®­å¤´ç±»å‹
 int CHexagon::GetArrow()
 {
 	return m_iArrow;
 }
 
-//ÉèÖÃ¼ıÍ·ÀàĞÍ
+//è®¾ç½®ç®­å¤´ç±»å‹
 void CHexagon::SetArrow(int iArrow, bool bRealSet)
 {
 	if (bRealSet)
@@ -73,7 +71,7 @@ void CHexagon::SetArrow(int iArrow, bool bRealSet)
 		m_iArrow = iArrow;
 	}
 
-	//ÎŞ¼ıÍ·
+	//æ— ç®­å¤´
 	if (m_iArrow == HexagonArrow_None)
 	{
 		m_pArrowSprite->setVisible(false);
@@ -82,7 +80,7 @@ void CHexagon::SetArrow(int iArrow, bool bRealSet)
 
 	char name[20] = {'\0'};
 
-	//Èç¹û±³¾°ÊÇ°×É«£¬Ôò¼ıÍ·Ó¦¸ÃÊÇÖ÷ÌâÉ«
+	//å¦‚æœèƒŒæ™¯æ˜¯ç™½è‰²ï¼Œåˆ™ç®­å¤´åº”è¯¥æ˜¯ä¸»é¢˜è‰²
 	if (m_iColor == HexagonColor_White)
 	{
 		int iThemeColor = CDataManager::getInstance()->GetCurThemeColor();
@@ -90,35 +88,35 @@ void CHexagon::SetArrow(int iArrow, bool bRealSet)
 	}
 	else if (m_iColor == HexagonColor_Theme)
 	{
-		//Èç¹û±³¾°ÊÇÖ÷ÌâÉ«£¬Ôò¼ıÍ·Ó¦¸ÃÊÇ°×É«
+		//å¦‚æœèƒŒæ™¯æ˜¯ä¸»é¢˜è‰²ï¼Œåˆ™ç®­å¤´åº”è¯¥æ˜¯ç™½è‰²
 		sprintf(name, "item_%d_w.png", m_iArrow);
 	}
 
-	//ÉèÖÃSprite
+	//è®¾ç½®Sprite
 	m_pArrowSprite->setSpriteFrame(CResManager::getInstance()->GetSpriteFrame(name));
 	m_pArrowSprite->setVisible(true);
 }
 
-//»ñµÃ±³¾°ÑÕÉ«
+//è·å¾—èƒŒæ™¯é¢œè‰²
 int CHexagon::GetColor()
 {
 	return m_iColor;
 }
 
 
-//ÉèÖÃ±³¾°ÑÕÉ«
+//è®¾ç½®èƒŒæ™¯é¢œè‰²
 void CHexagon::SetColor(int iColor)
 {
 	m_iColor = iColor;
 
-	//¿Õ°×Áù±ßĞÎ
+	//ç©ºç™½å…­è¾¹å½¢
 	if (m_iColor == HexagonColor_None)
 	{
 		m_pBgSprite->setVisible(false);
 		return;
 	}
 
-	//SpriteÃû³Æ
+	//Spriteåç§°
 	char arrBgName[20] = {'\0'};
 	char arrEfferName[20] = { '\0' };
 	if (m_iColor == HexagonColor_White)
@@ -136,23 +134,23 @@ void CHexagon::SetColor(int iColor)
 	m_pBgSprite->setSpriteFrame(CResManager::getInstance()->GetSpriteFrame(arrBgName));
 	m_pBgSprite->setVisible(true);
 
-	//Ğ§¹û
+	//æ•ˆæœ
 	m_pEfferSprite->setSpriteFrame(CResManager::getInstance()->GetSpriteFrame(arrEfferName));
 	m_pEfferSprite->setVisible(false);
 }
 
-//»ñµÃÊı×Ö
+//è·å¾—æ•°å­—
 int CHexagon::GetNum()
 {
 	return m_iNum;
 }
 
-//ÉèÖÃÊı×Ö
+//è®¾ç½®æ•°å­—
 void CHexagon::SetNum(int iNum)
 {
 	m_iNum = iNum;
 
-	//Ã»ÓĞÊı×Ö
+	//æ²¡æœ‰æ•°å­—
 	if (m_iNum == 0)
 	{
 		m_pNumSprite->setVisible(false);
@@ -160,7 +158,7 @@ void CHexagon::SetNum(int iNum)
 		return;
 	}
 
-	//SpriteÃû³Æ
+	//Spriteåç§°
 	char name[20];
 	int iThemeColor = CDataManager::getInstance()->GetCurThemeColor();
 	sprintf(name, "number_%d_%d.png", iThemeColor, m_iNum);
@@ -172,7 +170,7 @@ void CHexagon::SetNum(int iNum)
 }
 
 
-//È¡µÃ¼¯ºÏSpriteµÄNode
+//å–å¾—é›†åˆSpriteçš„Node
 Node* CHexagon::GetGatherNode()
 {
 	return m_pGatherNode;
@@ -181,21 +179,21 @@ Node* CHexagon::GetGatherNode()
 
 void CHexagon::Change(bool bClickSelfFlag, int iArrowType)
 {
-	//ÓĞÊı×ÖÔòÖ±½Óµİ¼õ¼´¿É
+	//æœ‰æ•°å­—åˆ™ç›´æ¥é€’å‡å³å¯
 	if (m_iNum > 0)
 	{
 		SetNum(m_iNum - 1);
 		return;
 	}
 
-	//Ëõ·Å+µ­³ö
+	//ç¼©æ”¾+æ·¡å‡º
 	auto efferScaleBy = ScaleBy::create(0.13f, 5.0f);
 	auto effScaleBack = efferScaleBy->reverse();
 	auto efferFadeOut = FadeOut::create(0.13f);
-	//ÉèÖÃÍ¸Ã÷¶È
+	//è®¾ç½®é€æ˜åº¦
 	m_pEfferSprite->setOpacity(255);
 	m_pEfferSprite->setVisible(true);
-	//Ö´ĞĞ¶¯×÷
+	//æ‰§è¡ŒåŠ¨ä½œ
 	m_pEfferSprite->runAction(
 		Sequence::create(
 			Spawn::createWithTwoActions(efferScaleBy, efferFadeOut),
@@ -217,7 +215,7 @@ void CHexagon::Change(bool bClickSelfFlag, int iArrowType)
 }
 
 
-//»ñÈ¡´óĞ¡
+//è·å–å¤§å°
 Size CHexagon::GetSize()
 {
 	return m_pBgSprite->getContentSize();
@@ -225,23 +223,23 @@ Size CHexagon::GetSize()
 
 
 
-//ÉèÖÃÊÇ·ñÓĞĞ§
+//è®¾ç½®æ˜¯å¦æœ‰æ•ˆ
 void CHexagon::SetValid(bool bValidFlag)
 {
 	m_bValidFlag = bValidFlag;
 }
 
-//»ñÈ¡ÓĞĞ§±êÖ¾
+//è·å–æœ‰æ•ˆæ ‡å¿—
 bool CHexagon::GetValid()
 {
 	return m_bValidFlag;
 }
 
 
-//¶¯×÷»Øµ÷
+//åŠ¨ä½œå›è°ƒ
 void CHexagon::OnActionCallback(Node* pSender, bool bClickSelfFlag, int iArrowType)
 {
-	//Ö÷ÌâÉ«ºÍ°×É«Ö®¼äÇĞ»»
+	//ä¸»é¢˜è‰²å’Œç™½è‰²ä¹‹é—´åˆ‡æ¢
 	if (m_iColor == HexagonColor_Theme)
 	{
 		SetColor(HexagonColor_White);
@@ -252,24 +250,24 @@ void CHexagon::OnActionCallback(Node* pSender, bool bClickSelfFlag, int iArrowTy
 	}
 
 	int iArrow = m_iArrow;
-	//¼ıÍ·ĞèÒªµã»÷²Å»áÏû³ı
+	//ç®­å¤´éœ€è¦ç‚¹å‡»æ‰ä¼šæ¶ˆé™¤
 	if (bClickSelfFlag && m_iArrow > HexagonArrow_None)
 	{
 		iArrow = HexagonArrow_None;
 	}
 	else if (!bClickSelfFlag && iArrowType > HexagonArrow_None)
 	{
-		//¼ıÍ·ÊÜµ½ÁËÓ°Ïì
+		//ç®­å¤´å—åˆ°äº†å½±å“
 		iArrow = iArrowType;
 	}
 	SetArrow(iArrow, true);
 
-	//Òş²ØĞ§¹û
+	//éšè—æ•ˆæœ
 	m_pEfferSprite->setVisible(false);
 }
 
 
-//»ñÈ¡ÊÇ·ñÒÑ×¼±¸×´Ì¬£¬¼´µ±Ç°Áù±ßĞÎ·ûºÏÍ¨¹ØÒªÇó
+//è·å–æ˜¯å¦å·²å‡†å¤‡çŠ¶æ€ï¼Œå³å½“å‰å…­è¾¹å½¢ç¬¦åˆé€šå…³è¦æ±‚
 bool CHexagon::GetReady()
 {
 	if (m_iArrow == HexagonArrow_None && m_iNum == 0 && m_iColor == HexagonColor_White)
