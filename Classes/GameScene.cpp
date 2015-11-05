@@ -7,6 +7,7 @@
 #include "FailScene.h"
 #include "MenuScene.h"
 
+
 USING_NS_CC;
 
 CGameScene::CGameScene() : m_iClickUserItemIndex(-1)
@@ -43,32 +44,32 @@ bool CGameScene::init()
 
 	//CreateBackground();
 
-	//¹Ø¿¨ĞÅÏ¢
+	//å…³å¡ä¿¡æ¯
 	float fTopHeight = InitLevelInfo();
 
-	//BeatĞÅÏ¢
+	//Beatä¿¡æ¯
 	fTopHeight = InitBeatInfo(fTopHeight);
 
-	//´´½¨µ×²¿²Ëµ¥
+	//åˆ›å»ºåº•éƒ¨èœå•
 	float fBottomHeight = CreateUserItemMenu();
 
-	//Áù±ßĞÎµØÍ¼
+	//å…­è¾¹å½¢åœ°å›¾
 	InitHexagon(fTopHeight, fBottomHeight);
 
-	//µã»÷¼àÌı
+	//ç‚¹å‡»ç›‘å¬
 	CreateTouchListener();
 
 	return true;
 }
 
-//»ñÈ¡Ñ¡ÔñµÄ¹Ø¿¨²¢ÉèÖÃ
+//è·å–é€‰æ‹©çš„å…³å¡å¹¶è®¾ç½®
 void CGameScene::SetupLevel()
 {
-	//»ñÈ¡Ñ¡ÔñµÄ¹Ø¿¨
+	//è·å–é€‰æ‹©çš„å…³å¡
 	m_iCurTheme = UserDefault::getInstance()->getIntegerForKey("Theme");
 	m_iCurLevel = UserDefault::getInstance()->getIntegerForKey("Level");
 
-	//ÉèÖÃµ±Ç°Ö÷ÌâºÍ¹Ø¿¨
+	//è®¾ç½®å½“å‰ä¸»é¢˜å’Œå…³å¡
 	CDataManager::getInstance()->SetCurThemeAndLevel(m_iCurTheme, m_iCurLevel);
 
 	m_iBeatTime = CDataManager::getInstance()->GetMapInfo()->iBeat;
@@ -77,14 +78,14 @@ void CGameScene::SetupLevel()
 
 void CGameScene::CreateBackground()
 {
-	//±³¾°
+	//èƒŒæ™¯
 	auto bgSprite = Sprite::create("images/background.png");
 	bgSprite->setPosition(m_visibleSize.width / 2, m_visibleSize.height / 2);
 	addChild(bgSprite);
 }
 
 
-//³õÊ¼»¯ÏÔÊ¾¹Ø¿¨ĞÅÏ¢
+//åˆå§‹åŒ–æ˜¾ç¤ºå…³å¡ä¿¡æ¯
 float CGameScene::InitLevelInfo()
 {
 	float fScreenWidth = m_visibleSize.width;
@@ -92,18 +93,18 @@ float CGameScene::InitLevelInfo()
 
 	auto puzzleSprite = Sprite::create("images/puzzle.png");
 	Size puzzleSize = puzzleSprite->getContentSize();
-	//Êı×ÖÆğÊ¼Î»ÖÃ
+	//æ•°å­—èµ·å§‹ä½ç½®
 	float fCurX = puzzleSize.width + 15;
 	float fCurY = puzzleSize.height / 2;
 	float fNumPadding = 2;
 
 	int arrNum[5] = {0};
-	arrNum[0] = (m_iCurTheme + 1) / 10;		//Ö÷ÌâÊ®Î»
-	arrNum[1] = (m_iCurTheme + 1) % 10;		//Ö÷Ìâ¸öÎ»
-	arrNum[2] = 11;							//¼ä¸ô·û
-	arrNum[3] = (m_iCurLevel + 1) / 10;		//¹Ø¿¨Ê®Î»
-	arrNum[4] = (m_iCurLevel + 1) % 10;		//¹Ø¿¨¸öÎ»
-	//ÏÔÊ¾Ö÷Ìâ-¹Ø¿¨ĞÅÏ¢
+	arrNum[0] = (m_iCurTheme + 1) / 10;		//ä¸»é¢˜åä½
+	arrNum[1] = (m_iCurTheme + 1) % 10;		//ä¸»é¢˜ä¸ªä½
+	arrNum[2] = 11;							//é—´éš”ç¬¦
+	arrNum[3] = (m_iCurLevel + 1) / 10;		//å…³å¡åä½
+	arrNum[4] = (m_iCurLevel + 1) % 10;		//å…³å¡ä¸ªä½
+	//æ˜¾ç¤ºä¸»é¢˜-å…³å¡ä¿¡æ¯
 	char name[20] = { '\0' };
 	for (int i = 0; i < 5; i++)
 	{
@@ -113,7 +114,7 @@ float CGameScene::InitLevelInfo()
 		puzzleSprite->addChild(sprite);
 		sprite->setPosition(fCurX + fNumWidth / 2, fCurY);
 
-		//ÏÂÒ»¸öÊı×ÖÎ»ÖÃ£¬×îºóÒ»¸öÔò²»¼ÓfNumPadding
+		//ä¸‹ä¸€ä¸ªæ•°å­—ä½ç½®ï¼Œæœ€åä¸€ä¸ªåˆ™ä¸åŠ fNumPadding
 		fCurX += fNumWidth;
 		if (i < 4)
 		{
@@ -121,47 +122,47 @@ float CGameScene::InitLevelInfo()
 		}
 	}
 
-	//puzzleSpriteÕûÌåµ½ÆÁÄ»×óÓÒ²àµÄ¼ä¾à
+	//puzzleSpriteæ•´ä½“åˆ°å±å¹•å·¦å³ä¾§çš„é—´è·
 	float fPuzzlePadding = (fScreenWidth - fCurX) / 2;
 	float fPuzzlePosX = fPuzzlePadding + puzzleSize.width / 2;
-	//ÉèÖÃpuzzleSpriteÎ»ÖÃ
+	//è®¾ç½®puzzleSpriteä½ç½®
 	puzzleSprite->setPosition(fPuzzlePosX, fScreenHeight * 0.85f);
 	addChild(puzzleSprite);
 
-	//´´½¨ÓÎÏ·ÔİÍ£²Ëµ¥
+	//åˆ›å»ºæ¸¸æˆæš‚åœèœå•
 	auto pauseMenuItem = MenuItemSprite::create(
 		Sprite::createWithSpriteFrameName("btn_pause.png"),
 		Sprite::createWithSpriteFrameName("btn_pause.png"),
 		CC_CALLBACK_1(CGameScene::OnButtonClick, this, 0)
 		);
 	Size pauseSize = pauseMenuItem->getContentSize();
-	//puzzleSpriteÕûÌåÓëÆÁÄ»Ö®¼äµÄ¼ä¾à¼õÈ¥ÔİÍ£²Ëµ¥¿í¶ÈµÄÒ»°ë
-	//¼´ÔİÍ£°´Å¥µ½ÆÁÄ»ÓÒ²àÖ®¼äµÄ¼ä¾à
+	//puzzleSpriteæ•´ä½“ä¸å±å¹•ä¹‹é—´çš„é—´è·å‡å»æš‚åœèœå•å®½åº¦çš„ä¸€åŠ
+	//å³æš‚åœæŒ‰é’®åˆ°å±å¹•å³ä¾§ä¹‹é—´çš„é—´è·
 	float fPausePadding = (fPuzzlePadding - pauseSize.width) / 2;
 	float fPausePosX = fScreenWidth - fPausePadding - pauseSize.width / 2;
 	pauseMenuItem->setPosition(fPausePosX, fScreenHeight * 0.85f);
 
-	//´´½¨²Ëµ¥
+	//åˆ›å»ºèœå•
 	auto menu = Menu::create(pauseMenuItem, NULL);
 	menu->setPosition(Vec2::ZERO);
 	addChild(menu);
 
-	//Ê£Óà¸ß¶È
+	//å‰©ä½™é«˜åº¦
 	float fTopHeight = fScreenHeight * 0.85f - pauseSize.width - 5;
 	return fTopHeight;
 }
 
-//³õÊ¼»¯ÏÔÊ¾Beat´ÎÊıĞÅÏ¢
+//åˆå§‹åŒ–æ˜¾ç¤ºBeatæ¬¡æ•°ä¿¡æ¯
 float CGameScene::InitBeatInfo(float fTopHeight)
 {
-	//Beat´ÎÊıÏÔÊ¾
+	//Beatæ¬¡æ•°æ˜¾ç¤º
 	auto beatNode = Node::create();
 
-	//ÏÂÒ»¸öÍ¼ĞÎÎ»ÖÃ
+	//ä¸‹ä¸€ä¸ªå›¾å½¢ä½ç½®
 	float fCurX = 0;
 	float fCurY = 0;
 
-	//1±íÊ¾Áù±ßĞÎ£¬0±íÊ¾Ö±Ïß
+	//1è¡¨ç¤ºå…­è¾¹å½¢ï¼Œ0è¡¨ç¤ºç›´çº¿
 	int arrBeatSprite[7] = { 1, 0, 0, 1, 0, 0, 1 };
 	float fStarWidth = 0;
 	for (int i = 0; i < 7; i++)
@@ -177,43 +178,43 @@ float CGameScene::InitBeatInfo(float fTopHeight)
 			sprite = Sprite::createWithSpriteFrameName("number_r_11.png");
 		}
 
-		//¼¯ºÏ
+		//é›†åˆ
 		beatNode->addChild(sprite);
-		//Ìí¼Óµ½ĞòÁĞ
+		//æ·»åŠ åˆ°åºåˆ—
 		m_vecBeatSpr.pushBack(sprite);
-		//ÉèÖÃÎ»ÖÃ
+		//è®¾ç½®ä½ç½®
 		float iSpriteWidth = sprite->getContentSize().width;
 		sprite->setPosition(fCurX + iSpriteWidth / 2, fCurY);
-		//ÏÂÒ»¸öÍ¼ĞÎXÎ»ÖÃ
+		//ä¸‹ä¸€ä¸ªå›¾å½¢Xä½ç½®
 		fCurX += iSpriteWidth;
 	}
 
-	//¼ä¾à
+	//é—´è·
 	fCurX += 10;
 
-	//BeatÎÄ×Ö
+	//Beatæ–‡å­—
 	auto beatTextSprite = Sprite::create("images/beat.png");
 	float fBeatTextWidth = beatTextSprite->getContentSize().width;
 	beatNode->addChild(beatTextSprite);
 	beatTextSprite->setPosition(fCurX + fBeatTextWidth / 2, fCurY);
 
-	//ÏÂÒ»¸öÍ¼ĞÎÎ»ÖÃ
+	//ä¸‹ä¸€ä¸ªå›¾å½¢ä½ç½®
 	float fNumPadding = 2;
 	fCurX += fBeatTextWidth + fNumPadding * 4;
 
-	//SpriteÃû³ÆÊı×é
+	//Spriteåç§°æ•°ç»„
 	char arrSpriteName[20] = { '\0' };
 
-	//Beat´ÎÊıÊ®Î»
+	//Beatæ¬¡æ•°åä½
 	sprintf(arrSpriteName, "number_g_%d.png", abs(m_iBeatTime) / 10);
 	m_pBeatDecadeSpr = Sprite::createWithSpriteFrameName(arrSpriteName);
 	beatNode->addChild(m_pBeatDecadeSpr);
 	float fBeatNumWidth = m_pBeatDecadeSpr->getContentSize().width;
 	m_pBeatDecadeSpr->setPosition(fCurX + fBeatNumWidth / 2, fCurY);
-	//ÏÂÒ»¸öÊı×ÖXÎ»ÖÃ
+	//ä¸‹ä¸€ä¸ªæ•°å­—Xä½ç½®
 	fCurX += fBeatNumWidth + fNumPadding;
 
-	//Beat´ÎÊı¸öÎ»
+	//Beatæ¬¡æ•°ä¸ªä½
 	sprintf(arrSpriteName, "number_g_%d.png", abs(m_iBeatTime) % 10);
 	m_pBeatUnitSpr = Sprite::createWithSpriteFrameName(arrSpriteName);
 	beatNode->addChild(m_pBeatUnitSpr);
@@ -221,7 +222,7 @@ float CGameScene::InitBeatInfo(float fTopHeight)
 	m_pBeatUnitSpr->setPosition(fCurX + fBeatNumWidth / 2, fCurY);
 	fCurX += fBeatNumWidth;
 
-	//ÏÔÊ¾£¬ÉèÖÃÎ»ÖÃ
+	//æ˜¾ç¤ºï¼Œè®¾ç½®ä½ç½®
 	float fBeatNumHeight = m_pBeatUnitSpr->getContentSize().height;
 	float fScreenWidth = m_visibleSize.width;
 	beatNode->setPosition((fScreenWidth - fCurX) / 2, fTopHeight - fBeatNumHeight / 2);
@@ -230,48 +231,48 @@ float CGameScene::InitBeatInfo(float fTopHeight)
 	return fTopHeight - fStarWidth;
 }
 
-//³õÊ¼»¯µØÍ¼
+//åˆå§‹åŒ–åœ°å›¾
 void CGameScene::InitHexagon(float fTopHeight, float fBottomHeight)
 {
-	//µ±Ç°¸ß¶È
+	//å½“å‰é«˜åº¦
 	float fCurHeight = fTopHeight;
-	//Ã¿¸öÁù±ßĞÎ¸ß¶È
+	//æ¯ä¸ªå…­è¾¹å½¢é«˜åº¦
 	Size hexagonSize = GetHexagonSize();
-	//Õû¸öÆÁÄ»¿í¶È
+	//æ•´ä¸ªå±å¹•å®½åº¦
 	float fScreenWidth = m_visibleSize.width;
-	//ÉÏÏÂ×óÓÒÁù±ßĞÎÖ®¼ä¼ä¾à
+	//ä¸Šä¸‹å·¦å³å…­è¾¹å½¢ä¹‹é—´é—´è·
 	float fHexagonPadding = 4;
 
-	//»ñÈ¡µØÍ¼ĞÅÏ¢
+	//è·å–åœ°å›¾ä¿¡æ¯
 	const MapInfo* pMapInfo = CDataManager::getInstance()->GetMapInfo();
 
-	//×ó²à¿Õ°×ÇøÓò×îĞ¡¿í¶È
+	//å·¦ä¾§ç©ºç™½åŒºåŸŸæœ€å°å®½åº¦
 	float fLeftBlankMinWidth = fScreenWidth;
-	//ÓÒ²à¿Õ°×ÇøÓò×îĞ¡¿í¶È
+	//å³ä¾§ç©ºç™½åŒºåŸŸæœ€å°å®½åº¦
 	float fRightBlankMinWidth = fScreenWidth;
 
-	//³õÊ¼»¯ÓĞĞ§ĞĞÆğÊ¼Ë÷ÒıÎª-1
+	//åˆå§‹åŒ–æœ‰æ•ˆè¡Œèµ·å§‹ç´¢å¼•ä¸º-1
 	m_iValidRowStart = -1;
-	//³õÊ¼»¯ÓĞĞ§ĞĞÊıÎª0
+	//åˆå§‹åŒ–æœ‰æ•ˆè¡Œæ•°ä¸º0
 	m_iValidRowNum = 0;
 
-	//Áù±ßĞÎ¼¯ºÏNode
+	//å…­è¾¹å½¢é›†åˆNode
 	auto hexagonGatherNode = Node::create();
 
-	//¸ù¾İµ±Ç°µØÍ¼³õÊ¼»¯HexagonĞòÁĞ
+	//æ ¹æ®å½“å‰åœ°å›¾åˆå§‹åŒ–Hexagonåºåˆ—
 	int iIndex = 0;
 	for (int i = 0; i < ROW_MAX; i++)
 	{
-		//µ±Ç°ĞĞÓĞĞ§±êÖ¾
+		//å½“å‰è¡Œæœ‰æ•ˆæ ‡å¿—
 		bool bRowValidFlag = false;
-		//Ò»ĞĞµÄÁù±ßĞÎ¸öÊı£¬Å¼ÊıĞĞ±ÈÆæÊıĞĞÉÙ1¸ö
+		//ä¸€è¡Œçš„å…­è¾¹å½¢ä¸ªæ•°ï¼Œå¶æ•°è¡Œæ¯”å¥‡æ•°è¡Œå°‘1ä¸ª
 		int iColumnCount = COLUMN_MAX;
 		if (i % 2 != 0)
 		{
 			iColumnCount = COLUMN_MAX - 1;
 		}
 
-		//ÆğÊ¼Î»ÖÃ
+		//èµ·å§‹ä½ç½®
 		float fCurX = (fScreenWidth - hexagonSize.width * iColumnCount - fHexagonPadding * (iColumnCount - 1)) / 2;
 		float fCurY = fCurHeight - hexagonSize.height / 2;
 
@@ -287,29 +288,29 @@ void CGameScene::InitHexagon(float fTopHeight, float fBottomHeight)
 			}
 			else
 			{
-				//³õÊ¼»¯CHexagon¶ÔÏó
+				//åˆå§‹åŒ–CHexagonå¯¹è±¡
 				m_arrHexagon[i][j].Init(iNum);
-				//ÉèÖÃÓĞĞ§
+				//è®¾ç½®æœ‰æ•ˆ
 				m_arrHexagon[i][j].SetValid(true);
-				//»ñµÃ¼¯ºÏµÄNode
+				//è·å¾—é›†åˆçš„Node
 				auto hexagonNode = m_arrHexagon[i][j].GetGatherNode();
 				hexagonNode->setPosition(fCurX + hexagonSize.width / 2, fCurY);
 				hexagonGatherNode->addChild(hexagonNode);
 
-				//ÕÒ×ó²à×îĞ¡µÄ¿Õ°×ÇøÓò¿í¶È
+				//æ‰¾å·¦ä¾§æœ€å°çš„ç©ºç™½åŒºåŸŸå®½åº¦
 				if (fLeftBlankMinWidth > fCurX)
 				{
 					log("Left: %f <=> %f", fLeftBlankMinWidth, fCurX);
 					fLeftBlankMinWidth = fCurX;
 				}
-				//ÕÒÓÒ²à×îĞ¡µÄ¿Õ°×ÇøÓò¿í¶È
+				//æ‰¾å³ä¾§æœ€å°çš„ç©ºç™½åŒºåŸŸå®½åº¦
 				if (fRightBlankMinWidth > fScreenWidth - fCurX - hexagonSize.width)
 				{
 					log("Right: %f <=> %f", fRightBlankMinWidth, fScreenWidth - fCurX - hexagonSize.width);
 					fRightBlankMinWidth = fScreenWidth - fCurX - hexagonSize.width;
 				}
 
-				//ĞĞÓĞĞ§
+				//è¡Œæœ‰æ•ˆ
 				bRowValidFlag = true;
 			}
 
@@ -321,23 +322,23 @@ void CGameScene::InitHexagon(float fTopHeight, float fBottomHeight)
 
 			iIndex++;
 		}
-		//ÓĞĞ§ĞĞ´¦Àí
+		//æœ‰æ•ˆè¡Œå¤„ç†
 		if (bRowValidFlag)
 		{
-			//Èç¹ûÆğÊ¼ÓĞĞ§ĞĞ»¹Ã»»ñÈ¡µ½£¬ÔòÉèÖÃÎªµ±Ç°ÓĞĞ§ĞĞ
+			//å¦‚æœèµ·å§‹æœ‰æ•ˆè¡Œè¿˜æ²¡è·å–åˆ°ï¼Œåˆ™è®¾ç½®ä¸ºå½“å‰æœ‰æ•ˆè¡Œ
 			if (m_iValidRowStart < 0)
 			{
 				m_iValidRowStart = i;
 			}
 			m_iValidRowNum++;
 
-			//ÖØĞÂ¼ÆËãµ±Ç°¸ß¶È
+			//é‡æ–°è®¡ç®—å½“å‰é«˜åº¦
 			fCurHeight = fCurHeight - hexagonSize.height * 3 / 4 - fHexagonPadding;
 		}
 	}
 
 
-	//ÉèÖÃMapItem
+	//è®¾ç½®MapItem
 	for (int i = 0; i < pMapInfo->vecMapItem.size(); i++)
 	{
 		int iRowIdx = pMapInfo->vecMapItem[i].iX;
@@ -354,19 +355,19 @@ void CGameScene::InitHexagon(float fTopHeight, float fBottomHeight)
 	}
 
 
-	//Á½²àµÄ×îĞ¡¿Õ°×ÇøÓò¿í¶ÈÒªÏàµÈ
+	//ä¸¤ä¾§çš„æœ€å°ç©ºç™½åŒºåŸŸå®½åº¦è¦ç›¸ç­‰
 	log("%f, %f", fLeftBlankMinWidth, fRightBlankMinWidth);
 	m_fGatherOffset.x = (fRightBlankMinWidth - fLeftBlankMinWidth) / 2;
 	m_fGatherOffset.y = -(fTopHeight - fBottomHeight - (fTopHeight - fCurHeight) - fHexagonPadding) / 2;
 	log("fTopHeight=%f, fBottomHeight=%f, fMapHeight=%f  m_fGatherOffsetY=%f", fTopHeight, fBottomHeight, fCurHeight, m_fGatherOffset.y);
-	//ÊÇ·ñĞèÒªÖ´ĞĞ¶¯×÷
+	//æ˜¯å¦éœ€è¦æ‰§è¡ŒåŠ¨ä½œ
 	bool bActionFlag = UserDefault::getInstance()->getBoolForKey("HexagonAction", true);
 	if (bActionFlag)
 	{
 		hexagonGatherNode->setPosition(m_fGatherOffset + Vec2(fScreenWidth, 0));
-		//´ÓÓÒÏò×ó»¬Èë
+		//ä»å³å‘å·¦æ»‘å…¥
 		hexagonGatherNode->runAction(MoveTo::create(0.2f, m_fGatherOffset));
-		//»Ö¸´±êÖ¾
+		//æ¢å¤æ ‡å¿—
 		UserDefault::getInstance()->setBoolForKey("HexagonAction", true);
 	}
 	else
@@ -377,60 +378,60 @@ void CGameScene::InitHexagon(float fTopHeight, float fBottomHeight)
 	addChild(hexagonGatherNode);
 }
 
-//³õÊ¼»¯µ×²¿UserItem²Ëµ¥
+//åˆå§‹åŒ–åº•éƒ¨UserItemèœå•
 float CGameScene::CreateUserItemMenu()
 {
 	float fScreenWidth = m_visibleSize.width;
 
-	//»ñÈ¡µØÍ¼ĞÅÏ¢
+	//è·å–åœ°å›¾ä¿¡æ¯
 	const MapInfo* pMapInfo = CDataManager::getInstance()->GetMapInfo();
 
-	//²Ëµ¥Ïî¼¯ºÏ
+	//èœå•é¡¹é›†åˆ
 	Vector<MenuItem *> vecMenuItem;
 
-	//¼ä¾à
+	//é—´è·
 	float fPadding = 0;
-	//µ±Ç°Î»ÖÃ
+	//å½“å‰ä½ç½®
 	float fCurX = 0;
 	float fCurY = 0;
 
-	//UserItem×î¶à¸öÊıºÍÊµ¼Ê¸öÊı
+	//UserItemæœ€å¤šä¸ªæ•°å’Œå®é™…ä¸ªæ•°
 	int iTotalNum = 5;
 	int iActualNum = pMapInfo->vecUserItem.size();
 
 	for (int i = 0; i < iTotalNum; i++)
 	{
 		auto bgSprite = Sprite::create("images/itemBK.png");
-		//Ä¬ÈÏÎŞĞ§
+		//é»˜è®¤æ— æ•ˆ
 		m_oUserItem[i].SetValid(false);
 
-		//Êµ¼ÊUserItem¸öÊı¿ÉÄÜ²»×ã5¸ö
+		//å®é™…UserItemä¸ªæ•°å¯èƒ½ä¸è¶³5ä¸ª
 		if (i < iActualNum)
 		{
-			//Ìí¼Ó¼ıÍ·
+			//æ·»åŠ ç®­å¤´
 			m_oUserItem[i].SetArrowType(pMapInfo->vecUserItem[i]);
 			char name[20] = { '\0' };
 			sprintf(name, "item_%d_w.png", m_oUserItem[i].GetArrowType());
 			m_oUserItem[i].m_pArrowSpr = Sprite::createWithSpriteFrameName(name);
 			bgSprite->addChild(m_oUserItem[i].m_pArrowSpr);
 
-			//ÉèÖÃ¼ıÍ·Î»ÖÃ
+			//è®¾ç½®ç®­å¤´ä½ç½®
 			Size bgSize = bgSprite->getContentSize();
 			m_oUserItem[i].m_pArrowSpr->setPosition(bgSize.width / 2, bgSize.height / 2);
 			
-			//ÉèÖÃµã»÷Ê±ÏÔÊ¾µÄ¿ò¿ò
+			//è®¾ç½®ç‚¹å‡»æ—¶æ˜¾ç¤ºçš„æ¡†æ¡†
 			m_oUserItem[i].m_pClickSpr = Sprite::create("images/itemchoose.png");
 			bgSprite->addChild(m_oUserItem[i].m_pClickSpr);
 			m_oUserItem[i].m_pClickSpr->setPosition(bgSize.width / 2, bgSize.height / 2);
 
-			//Ä¬ÈÏÎ´µã»÷
+			//é»˜è®¤æœªç‚¹å‡»
 			m_oUserItem[i].OnUnclicked();
 
-			//ÉèÖÃÓĞĞ§
+			//è®¾ç½®æœ‰æ•ˆ
 			m_oUserItem[i].SetValid(true);
 		}
 		
-		//sprite¿í¸ß
+		//spriteå®½é«˜
 		float fSpriteWidth = bgSprite->getContentSize().width;
 		float fSpriteHeight = bgSprite->getContentSize().height;
 
@@ -441,7 +442,7 @@ float CGameScene::CreateUserItemMenu()
 			fCurY = fSpriteHeight * 1.2f;
 		}
 
-		//´´½¨²Ëµ¥
+		//åˆ›å»ºèœå•
 		auto menuItem = MenuItemSprite::create(
 			bgSprite,
 			bgSprite,
@@ -450,7 +451,7 @@ float CGameScene::CreateUserItemMenu()
 		menuItem->setPosition(fCurX + fSpriteWidth / 2, fCurY);
 		vecMenuItem.pushBack(menuItem);
 
-		//ÏÂÒ»¸öUserItemÎ»ÖÃ
+		//ä¸‹ä¸€ä¸ªUserItemä½ç½®
 		fCurX += fSpriteWidth + fPadding;
 	}
 
@@ -462,26 +463,26 @@ float CGameScene::CreateUserItemMenu()
 }
 
 
-//´´½¨´¥Ãş¼àÌıÆ÷
+//åˆ›å»ºè§¦æ‘¸ç›‘å¬å™¨
 void CGameScene::CreateTouchListener()
 {
 	auto touchListener = EventListenerTouchOneByOne::create();
 	touchListener->onTouchBegan = [&](Touch* touch, Event* event)
 	{
-		//µã»÷ĞèÒªÓĞ¼ä¸ô£¬±ÜÃâBeat´ÎÊı»òÁù±ßĞÎ¶¯×÷»¹Ã»Ö´ĞĞÍê
-		//¾Í¿ªÊ¼Ö´ĞĞÏÂ´Î¶¯×÷£¬µ¼ÖÂ³öÏÖÁËËõ·Å¡£
+		//ç‚¹å‡»éœ€è¦æœ‰é—´éš”ï¼Œé¿å…Beatæ¬¡æ•°æˆ–å…­è¾¹å½¢åŠ¨ä½œè¿˜æ²¡æ‰§è¡Œå®Œ
+		//å°±å¼€å§‹æ‰§è¡Œä¸‹æ¬¡åŠ¨ä½œï¼Œå¯¼è‡´å‡ºç°äº†ç¼©æ”¾ã€‚
 		if (!m_bCanClicked)
 		{
 			return false;
 		}
 
-		//ÉèÖÃ²»¿Éµã»÷
+		//è®¾ç½®ä¸å¯ç‚¹å‡»
 		m_bCanClicked = false;
 
-		//»ñÈ¡µÄµ±Ç°´¥ÃşµÄÄ¿±ê
+		//è·å–çš„å½“å‰è§¦æ‘¸çš„ç›®æ ‡
 		auto target = static_cast<Sprite*>(event->getCurrentTarget());
 
-		//»ñÈ¡´¥ÃşµãÎ»ÖÃ
+		//è·å–è§¦æ‘¸ç‚¹ä½ç½®
 		Vec2 touchPos = target->convertToNodeSpace(touch->getLocation());
 		return CheckHexagonClick(touchPos);
 	};
@@ -489,7 +490,7 @@ void CGameScene::CreateTouchListener()
 }
 
 
-//¼ì²éÊÇÄÄ¸öÁù±ßĞÎ±»µã»÷
+//æ£€æŸ¥æ˜¯å“ªä¸ªå…­è¾¹å½¢è¢«ç‚¹å‡»
 bool CGameScene::CheckHexagonClick(cocos2d::Vec2 touchPos)
 {
 	for (int i = 0; i < ROW_MAX; i++)
@@ -516,7 +517,7 @@ bool CGameScene::CheckHexagonClick(cocos2d::Vec2 touchPos)
 }
 
 
-//HexagonË÷ÒıÀà
+//Hexagonç´¢å¼•ç±»
 class HexagonIndex
 {
 public:
@@ -540,55 +541,55 @@ public:
 };
 
 
-//Áù±ßĞÎµã»÷´¦Àí
+//å…­è¾¹å½¢ç‚¹å‡»å¤„ç†
 void CGameScene::OnHexagonClick(int iRowIndex, int iColIndex)
 {
 #ifdef _DEBUG_
 	log("OnHexagonClick:%d %d", iRowIndex, iColIndex);
 #endif
 
-	//»ñÈ¡¼ıÍ·ºÍÊı×Ö
+	//è·å–ç®­å¤´å’Œæ•°å­—
 	int iArrow = m_arrHexagon[iRowIndex][iColIndex].GetArrow();
 	int iNum = m_arrHexagon[iRowIndex][iColIndex].GetNum();
 	
-	//µã»÷ÁËUserItem
+	//ç‚¹å‡»äº†UserItem
 	if (m_iClickUserItemIndex > -1)
 	{
-		//¼ıÍ·²»´æÔÚÇÒÎŞÊı×Ö
+		//ç®­å¤´ä¸å­˜åœ¨ä¸”æ— æ•°å­—
 		if (iArrow == HexagonArrow_None && iNum == 0)
 		{
 			int iArrowType = m_oUserItem[m_iClickUserItemIndex].GetArrowType();
-			//ÉèÖÃ¼ıÍ·
+			//è®¾ç½®ç®­å¤´
 			m_arrHexagon[iRowIndex][iColIndex].SetArrow(iArrowType, true);
-			//UserItemÒÑÊ¹ÓÃ
+			//UserItemå·²ä½¿ç”¨
 			m_oUserItem[m_iClickUserItemIndex].OnUsed();
-			//ÖØÖÃË÷Òı
+			//é‡ç½®ç´¢å¼•
 			m_iClickUserItemIndex = -1;
 		}
 		return;
 	}
 
-	//¸ù¾İµã»÷µÄÁù±ßĞÎÊÇ·ñÓĞ¼ıÍ·½øĞĞ·Ö±ğ´¦Àí
+	//æ ¹æ®ç‚¹å‡»çš„å…­è¾¹å½¢æ˜¯å¦æœ‰ç®­å¤´è¿›è¡Œåˆ†åˆ«å¤„ç†
 	if (iArrow > HexagonArrow_None && iArrow <= HexagonArrow_Hexagon)
 	{
-		//²¥·ÅÉùĞ§
+		//æ’­æ”¾å£°æ•ˆ
 		CResManager::getInstance()->PlayEffect("sounds/sound_item.mp3");
 
 		ChangeWithArrow(iRowIndex, iColIndex, iArrow);
 	}
 	else
 	{
-		//²¥·ÅÉùĞ§
+		//æ’­æ”¾å£°æ•ˆ
 		CResManager::getInstance()->PlayEffect("sounds/sound_change.mp3");
 
 		ChangeWithoutArrow(iRowIndex, iColIndex);
 	}
 	
 
-	//¸üĞÂBeat´ÎÊı
+	//æ›´æ–°Beatæ¬¡æ•°
 	ChangeBeatTime();
 
-	//0.32Ãëºó¼ì²éÊÇ·ñÍ¨¹Ø
+	//0.32ç§’åæ£€æŸ¥æ˜¯å¦é€šå…³
 	scheduleOnce(schedule_selector(CGameScene::CheckGameOver), 0.30f);
 }
 
@@ -600,10 +601,10 @@ void CGameScene::OnButtonClick(Ref* pSender, int iIndex)
 	log("OnButtonClick %d", iIndex);
 #endif
 
-	//µã»÷ÔİÍ£°´Å¥
+	//ç‚¹å‡»æš‚åœæŒ‰é’®
 	if (0 == iIndex)
 	{
-		//²»ĞèÒªÖ´ĞĞ¶¯×÷
+		//ä¸éœ€è¦æ‰§è¡ŒåŠ¨ä½œ
 		UserDefault::getInstance()->setBoolForKey("HexagonAction", false);
 
 		auto layer = CBarrierLayer::create();
@@ -614,7 +615,7 @@ void CGameScene::OnButtonClick(Ref* pSender, int iIndex)
 }
 
 
-//UserItemµã»÷ÏìÓ¦
+//UserItemç‚¹å‡»å“åº”
 void CGameScene::OnUserItemClick(Ref* pSender, int iIndex)
 {
 	if (!m_oUserItem[iIndex].IsValid())
@@ -624,7 +625,7 @@ void CGameScene::OnUserItemClick(Ref* pSender, int iIndex)
 
 	m_oUserItem[iIndex].OnClicked();
 	bool bVisible = m_oUserItem[iIndex].IsClicked();
-	//Èç¹ûÊÇÏÔÊ¾µÄ£¬Òş²ØÆäËûUserItemµÄµã»÷
+	//å¦‚æœæ˜¯æ˜¾ç¤ºçš„ï¼Œéšè—å…¶ä»–UserItemçš„ç‚¹å‡»
 	if (bVisible)
 	{
 		for (int i = 0; i < 5; i++)
@@ -646,7 +647,7 @@ void CGameScene::OnUserItemClick(Ref* pSender, int iIndex)
 }
 
 
-//Beat´ÎÊı¸Ä±ä
+//Beatæ¬¡æ•°æ”¹å˜
 void CGameScene::ChangeBeatTime()
 {
 #ifdef _DEBUG_
@@ -655,7 +656,7 @@ void CGameScene::ChangeBeatTime()
 
 	m_iBeatTime -= 1;
 
-	//µ±Ê£Óà´ÎÊı´ïµ½¶ÔÓ¦ÖµÊ±Òş²Ø¶ÔÓ¦Î»ÖÃSprite
+	//å½“å‰©ä½™æ¬¡æ•°è¾¾åˆ°å¯¹åº”å€¼æ—¶éšè—å¯¹åº”ä½ç½®Sprite
 	int arrBeatTime[] = {-10, -8, -6, -5, -4, -2, -1};
 	for (int i = 0; i < 7; i++)
 	{
@@ -667,7 +668,7 @@ void CGameScene::ChangeBeatTime()
 
 
 	bool bExtraFlag = (m_iBeatTime < 0);
-	//ÉèÖÃÊ®Î»Ëõ·Å¶¯×÷
+	//è®¾ç½®åä½ç¼©æ”¾åŠ¨ä½œ
 	auto decadeScaleBy = CCScaleBy::create(0.13f, 2);
 	auto decadeScaleBack = decadeScaleBy->reverse();
 	m_pBeatDecadeSpr->runAction(
@@ -678,7 +679,7 @@ void CGameScene::ChangeBeatTime()
 			NULL
 		)
 	);
-	//ÉèÖÃ¸öÎ»Ëõ·Å¶¯×÷
+	//è®¾ç½®ä¸ªä½ç¼©æ”¾åŠ¨ä½œ
 	auto unitScaleBy = CCScaleBy::create(0.13f, 2);
 	auto unitScaleBack = unitScaleBy->reverse();
 	m_pBeatUnitSpr->runAction(
@@ -692,8 +693,8 @@ void CGameScene::ChangeBeatTime()
 }
 
 
-//Beat´ÎÊıÖ´ĞĞ¶¯×÷µ÷ÓÃµÄ»Øµ÷º¯Êı
-//bExtraFlag±íÊ¾ÊÇ·ñÊÇ¶îÍâ´ÎÊı£¬¶îÍâ´ÎÊıÓÃºìÉ«±íÊ¾
+//Beatæ¬¡æ•°æ‰§è¡ŒåŠ¨ä½œè°ƒç”¨çš„å›è°ƒå‡½æ•°
+//bExtraFlagè¡¨ç¤ºæ˜¯å¦æ˜¯é¢å¤–æ¬¡æ•°ï¼Œé¢å¤–æ¬¡æ•°ç”¨çº¢è‰²è¡¨ç¤º
 void CGameScene::OnBeatActionCallback(Node* pSender, bool bExtraFlag, int iNum)
 {
 	char name[20] = {'\0'};
@@ -718,7 +719,7 @@ Size CGameScene::GetHexagonSize()
 
 void CGameScene::CheckGameOver(float dt)
 {
-	//ÉèÖÃ¿Éµã»÷
+	//è®¾ç½®å¯ç‚¹å‡»
 	m_bCanClicked = true;
 
 	bool bWinFlag = true;
@@ -742,7 +743,7 @@ RESULT:
 	if (bWinFlag && m_iBeatTime >= BEAT_TIME_LIMIT)
 	{
 		CResManager::getInstance()->PlayEffect("sounds/sound_complete.mp3");
-		//¶¨Ê±3Ãë´¥·¢³É¹¦»òÊ§°Ü½çÃæ
+		//å®šæ—¶3ç§’è§¦å‘æˆåŠŸæˆ–å¤±è´¥ç•Œé¢
 		this->runAction(
 			Sequence::create(
 			DelayTime::create(0.8f),
@@ -780,12 +781,12 @@ void CGameScene::LevelPass()
 		iScore = 1;
 	}
 
-	//¼ÇÂ¼±¾´Î·ÖÊı
+	//è®°å½•æœ¬æ¬¡åˆ†æ•°
 	UserDefault::getInstance()->setIntegerForKey("Score", iScore);
-	//Í¨¹Ø
+	//é€šå…³
 	CDataManager::getInstance()->Pass(iScore);
 
-	//ÇĞ»»µ½Í¨¹Ø½çÃæ
+	//åˆ‡æ¢åˆ°é€šå…³ç•Œé¢
 	auto scene = CPassScene::CreateScene();
 	Director::getInstance()->replaceScene(scene);
 
@@ -797,7 +798,7 @@ void CGameScene::LevelFail()
 	log("LevelFail.");
 #endif
 
-	//ÇĞ»»µ½Ê§°Ü½çÃæ
+	//åˆ‡æ¢åˆ°å¤±è´¥ç•Œé¢
 	auto scene = CFailScene::CreateScene();
 	Director::getInstance()->replaceScene(scene);
 
@@ -805,7 +806,7 @@ void CGameScene::LevelFail()
 
 
 
-//¼ıÍ·×ª»»±í
+//ç®­å¤´è½¬æ¢è¡¨
 const int arrArrowChangeList[5][6] =
 {
 	{ 0, 0, 0, 0, 0, 0 },
@@ -815,26 +816,26 @@ const int arrArrowChangeList[5][6] =
 	{ 4, 4, 4, 4, 4, 4 }
 };
 
-//»ñÈ¡¸Ä±äÖ®ºóµÄ¼ıÍ·ÀàĞÍ£¬iPos±íÊ¾ÊÇµÚ¼¸¸öÎ»ÖÃ£¬iCurArrowType±íÊ¾µ±Ç°¼ıÍ·ÀàĞÍ
+//è·å–æ”¹å˜ä¹‹åçš„ç®­å¤´ç±»å‹ï¼ŒiPosè¡¨ç¤ºæ˜¯ç¬¬å‡ ä¸ªä½ç½®ï¼ŒiCurArrowTypeè¡¨ç¤ºå½“å‰ç®­å¤´ç±»å‹
 int CGameScene::GetChangedArrow(int iPos, int iCurArrowType)
 {
 	return arrArrowChangeList[iCurArrowType][iPos];
 }
 
 
-//µã»÷µÄÎ»ÖÃ°üº¬¼ıÍ·
+//ç‚¹å‡»çš„ä½ç½®åŒ…å«ç®­å¤´
 void CGameScene::ChangeWithArrow(int iRowIndex, int iColIndex, int iArrow)
 {
 	if (iArrow == HexagonArrow_Hexagon)
 	{
-		//¸Ä±ä×Ô¼º
+		//æ”¹å˜è‡ªå·±
 		m_arrHexagon[iRowIndex][iColIndex].Change(true);
 		return;
 	}
 
 	if (iArrow == HexagonArrow_Transverse)
 	{
-		//Ò»ĞĞ×î¶à¸öÊı
+		//ä¸€è¡Œæœ€å¤šä¸ªæ•°
 		int iColCount = COLUMN_MAX + ((iRowIndex % 2 == 0) ? 0 : -1);
 		for (int j = 0; j < iColCount; j++)
 		{
@@ -846,7 +847,7 @@ void CGameScene::ChangeWithArrow(int iRowIndex, int iColIndex, int iArrow)
 		return;
 	}
 
-	//¸Ä±ä×Ô¼º
+	//æ”¹å˜è‡ªå·±
 	m_arrHexagon[iRowIndex][iColIndex].Change(true);
 
 	if (iArrow == HexagonArrow_LeftTop)
@@ -854,7 +855,7 @@ void CGameScene::ChangeWithArrow(int iRowIndex, int iColIndex, int iArrow)
 		int iTemp = ((iRowIndex % 2 == 0) ? 0 : 1);
 		for (int i = iRowIndex + 1; i < ROW_MAX; i++)
 		{
-			//Ò»ĞĞ×î¶à¸öÊı
+			//ä¸€è¡Œæœ€å¤šä¸ªæ•°
 			int iColCount = COLUMN_MAX + ((i % 2 == 0) ? 0 : -1);
 			int iColIdx = iColIndex + ((i - iRowIndex + iTemp) / 2);
 
@@ -872,7 +873,7 @@ void CGameScene::ChangeWithArrow(int iRowIndex, int iColIndex, int iArrow)
 		iTemp = ((iRowIndex % 2 == 0) ? 1 : 0);
 		for (int i = iRowIndex - 1; i >= 0; i--)
 		{
-			//Ò»ĞĞ×î¶à¸öÊı
+			//ä¸€è¡Œæœ€å¤šä¸ªæ•°
 			int iColCount = COLUMN_MAX + ((i % 2 == 0) ? 0 : -1);
 			int iColIdx = iColIndex - ((iRowIndex - i + iTemp) / 2);
 			if (iColIdx < 0)
@@ -894,7 +895,7 @@ void CGameScene::ChangeWithArrow(int iRowIndex, int iColIndex, int iArrow)
 		int iTemp = ((iRowIndex % 2 == 0) ? 1 : 0);
 		for (int i = iRowIndex + 1; i < ROW_MAX; i++)
 		{
-			//Ò»ĞĞ×î¶à¸öÊı
+			//ä¸€è¡Œæœ€å¤šä¸ªæ•°
 			int iColCount = COLUMN_MAX + ((i % 2 == 0) ? 0 : -1);
 			int iColIdx = iColIndex - ((i - iRowIndex + iTemp) / 2);
 			if (iColIdx < 0)
@@ -911,7 +912,7 @@ void CGameScene::ChangeWithArrow(int iRowIndex, int iColIndex, int iArrow)
 		iTemp = ((iRowIndex % 2 == 0) ? 0 : 1);
 		for (int i = iRowIndex - 1; i >= 0; i--)
 		{
-			//Ò»ĞĞ×î¶à¸öÊı
+			//ä¸€è¡Œæœ€å¤šä¸ªæ•°
 			int iColCount = COLUMN_MAX + ((i % 2 == 0) ? 0 : -1);
 			int iColIdx = iColIndex + ((iRowIndex - i + iTemp) / 2);
 			if (iColIdx >= iColCount)
@@ -927,10 +928,10 @@ void CGameScene::ChangeWithArrow(int iRowIndex, int iColIndex, int iArrow)
 	}
 }
 
-//µã»÷µÄÎ»ÖÃÃ»ÓĞ¼ıÍ·
+//ç‚¹å‡»çš„ä½ç½®æ²¡æœ‰ç®­å¤´
 void CGameScene::ChangeWithoutArrow(int iRowIndex, int iColIndex)
 {
-	//¸Ä±ä×Ô¼º
+	//æ”¹å˜è‡ªå·±
 	m_arrHexagon[iRowIndex][iColIndex].Change(true);
 
 	HexagonIndex arrHexagonIdx[6] = {
@@ -946,7 +947,7 @@ void CGameScene::ChangeWithoutArrow(int iRowIndex, int iColIndex)
 	{
 		int iRowIdx = arrHexagonIdx[i].m_iRowIndex;
 		int iColIdx = arrHexagonIdx[i].m_iColIndex;
-		//Ò»ĞĞ×î¶à¸öÊı
+		//ä¸€è¡Œæœ€å¤šä¸ªæ•°
 		int iColCount = COLUMN_MAX + ((iRowIdx % 2 == 0) ? 0 : -1);
 		if (arrHexagonIdx[i].IsValid(ROW_MAX, iColCount) && m_arrHexagon[iRowIdx][iColIdx].GetValid())
 		{
@@ -955,7 +956,7 @@ void CGameScene::ChangeWithoutArrow(int iRowIndex, int iColIndex)
 			log("[%d][%d]: iArrowType=%d->%d", iRowIdx, iColIdx, iArrowType, iChangedArrowType);
 			if (iChangedArrowType == iArrowType)
 			{
-				//Ã»ÓĞ¸Ä±äÊ±ÖÃÎªNone
+				//æ²¡æœ‰æ”¹å˜æ—¶ç½®ä¸ºNone
 				iChangedArrowType = HexagonArrow_None;
 			}
 			m_arrHexagon[iRowIdx][iColIdx].Change(false, iChangedArrowType);
@@ -964,7 +965,7 @@ void CGameScene::ChangeWithoutArrow(int iRowIndex, int iColIndex)
 }
 
 
-//¶¨Ê±ÇĞ»»³É¹¦»òÊ§°Ü½çÃæ
+//å®šæ—¶åˆ‡æ¢æˆåŠŸæˆ–å¤±è´¥ç•Œé¢
 void CGameScene::OnTimeCallback(Node* pSender, bool bPassFlag)
 {
 	if (bPassFlag)
