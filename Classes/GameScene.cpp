@@ -39,6 +39,9 @@ bool CGameScene::init()
 
 	m_visibleSize = Director::getInstance()->getVisibleSize();
 
+	//默认设置可点击
+	m_bCanClicked = true;
+
 	SetupLevel();
 
 	//CreateBackground();
