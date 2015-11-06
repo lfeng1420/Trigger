@@ -13,7 +13,7 @@ private:
 	{
 		ACTION_REBOUND_LEN = 20,
 		THEME_LEVEL_NUM = 20,
-
+		MENU_SCENE_TAG = 1420,
 	};
 
 public:

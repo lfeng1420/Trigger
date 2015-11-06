@@ -71,7 +71,7 @@ void CPassScene::ShowStar()
 	
 	//²¥·ÅÉùÐ§
 	char soundName[50] = { '\0' };
-	sprintf(soundName, "sounds/sound_star%d.mp3", iStarNum);
+	sprintf(soundName, "sounds/sound_star%d", iStarNum);
 	CResManager::getInstance()->PlayEffect(soundName);
 
 	float fStarPadding = 0;

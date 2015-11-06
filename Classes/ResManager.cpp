@@ -52,6 +52,21 @@ bool CResManager::Init()
 		LoadPlist(arrPlistName[i]);
 	}
 
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_WP8)
+	char* arrSoundName[7] = {
+		"sounds/sound_change.wav",
+		"sounds/sound_complete.wav",
+		"sounds/sound_dead.wav",
+		"sounds/sound_item.wav",
+		"sounds/sound_star1.wav",
+		"sounds/sound_star2.wav",
+		"sounds/sound_star3.wav"
+	};
+	for (int i = 0; i < 7; i++)
+	{
+		PreloadSound(arrSoundName[i]);
+	}
+#else
 	char* arrSoundName[7] = {
 		"sounds/sound_change.mp3",
 		"sounds/sound_complete.mp3",
@@ -65,6 +80,7 @@ bool CResManager::Init()
 	{
 		PreloadSound(arrSoundName[i]);
 	}
+#endif
 
 	//ÉùÒô×´Ì¬
 	m_bSoundState = UserDefault::getInstance()->getBoolForKey("SoundState", true);
@@ -179,10 +195,18 @@ void CResManager::PlayEffect(const char* pName)
 {
 	if (m_bSoundState)
 	{
-#ifdef _DEBUG_
-		log("PlayEffect: %s", pName);
+		string strFileName(pName);
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_WP8)
+		strFileName.append(".wav");
+#else
+		strFileName.append(".mp3");
 #endif
-		m_audioCache->playEffect(pName);
+
+#ifdef _DEBUG_
+		log("PlayEffect: %s", strFileName.c_str());
+#endif
+		m_audioCache->playEffect(strFileName.c_str());
 	}
 }
 

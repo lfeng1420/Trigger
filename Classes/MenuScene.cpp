@@ -23,6 +23,7 @@ Scene* CMenuScene::CreateScene()
 	auto layer = CMenuScene::create();
 	auto scene = Scene::create();
 	scene->addChild(layer);
+	scene->setTag(MENU_SCENE_TAG);
 	return scene;
 }
 
@@ -307,7 +308,9 @@ void CMenuScene::CreateKeyListener()
 			//±£´æÉùÒô×´Ì¬
 			CResManager::getInstance()->SaveSoundState();
 
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 			Director::getInstance()->end();
+#endif
 		}
 	};
 

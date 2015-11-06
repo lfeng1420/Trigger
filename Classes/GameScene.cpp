@@ -471,22 +471,24 @@ void CGameScene::CreateTouchListener()
 	auto touchListener = EventListenerTouchOneByOne::create();
 	touchListener->onTouchBegan = [&](Touch* touch, Event* event)
 	{
-		//点击需要有间隔，避免Beat次数或六边形动作还没执行完
-		//就开始执行下次动作，导致出现了缩放。
+		return true;
+	};
+
+	touchListener->onTouchEnded = [&](Touch* touch, Event* event)
+	{
 		if (!m_bCanClicked)
 		{
-			return false;
+			return;
 		}
-
-		//设置不可点击
-		m_bCanClicked = false;
 
 		//获取的当前触摸的目标
 		auto target = static_cast<Sprite*>(event->getCurrentTarget());
 
 		//获取触摸点位置
 		Vec2 touchPos = target->convertToNodeSpace(touch->getLocation());
-		return CheckHexagonClick(touchPos);
+		
+		//如果点击了某个六边形，则设置为不可触摸，否则设置为可触摸
+		m_bCanClicked = !CheckHexagonClick(touchPos);
 	};
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
 }
@@ -575,14 +577,14 @@ void CGameScene::OnHexagonClick(int iRowIndex, int iColIndex)
 	if (iArrow > HexagonArrow_None && iArrow <= HexagonArrow_Hexagon)
 	{
 		//播放声效
-		CResManager::getInstance()->PlayEffect("sounds/sound_item.mp3");
+		CResManager::getInstance()->PlayEffect("sounds/sound_item");
 
 		ChangeWithArrow(iRowIndex, iColIndex, iArrow);
 	}
 	else
 	{
 		//播放声效
-		CResManager::getInstance()->PlayEffect("sounds/sound_change.mp3");
+		CResManager::getInstance()->PlayEffect("sounds/sound_change");
 
 		ChangeWithoutArrow(iRowIndex, iColIndex);
 	}
@@ -744,7 +746,7 @@ RESULT:
 	bool bPassFlag = false;
 	if (bWinFlag && m_iBeatTime >= BEAT_TIME_LIMIT)
 	{
-		CResManager::getInstance()->PlayEffect("sounds/sound_complete.mp3");
+		CResManager::getInstance()->PlayEffect("sounds/sound_complete");
 		//定时3秒触发成功或失败界面
 		this->runAction(
 			Sequence::create(
@@ -757,7 +759,7 @@ RESULT:
 	else if (m_iBeatTime < BEAT_TIME_LIMIT || 
 		(m_iBeatTime == BEAT_TIME_LIMIT && !bWinFlag))
 	{
-		CResManager::getInstance()->PlayEffect("sounds/sound_dead.mp3");
+		CResManager::getInstance()->PlayEffect("sounds/sound_dead");
 		OnTimeCallback(nullptr, false);
 	}
 }
