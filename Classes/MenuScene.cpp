@@ -222,7 +222,10 @@ void CMenuScene::OnButtonClick(Ref* pSender, int iIndex)
 {
 	if (0 == iIndex)
 	{
+#ifdef _DEBUG_
 		log("StartButton");
+#endif // _DEBUG_
+		
 
 		//Çå³ý¼ÇÂ¼
 		UserDefault::getInstance()->setIntegerForKey("Theme", -1);
@@ -236,7 +239,10 @@ void CMenuScene::OnButtonClick(Ref* pSender, int iIndex)
 
 	if (1 == iIndex)
 	{
+#ifdef _DEBUG_
 		log("helpButton");
+#endif // _DEBUG_
+		
 		auto scene = CThankScene::CreateScene();
 		Director::getInstance()->replaceScene(scene);
 		return;
@@ -244,7 +250,10 @@ void CMenuScene::OnButtonClick(Ref* pSender, int iIndex)
 
 	if (2 == iIndex)
 	{
+#ifdef _DEBUG_
 		log("moreButton");
+#endif // _DEBUG_
+		
 		auto scene = CThankScene::CreateScene();
 		Director::getInstance()->replaceScene(scene);
 		return;
@@ -252,7 +261,10 @@ void CMenuScene::OnButtonClick(Ref* pSender, int iIndex)
 	
 	if (3 == iIndex)
 	{
+#ifdef _DEBUG_
 		log("starButton");
+#endif // _DEBUG_
+		
 		auto scene = CThankScene::CreateScene();
 		Director::getInstance()->replaceScene(scene);
 		return;
@@ -260,7 +272,10 @@ void CMenuScene::OnButtonClick(Ref* pSender, int iIndex)
 
 	if (4 == iIndex)
 	{
+#ifdef _DEBUG_
 		log("soundButton");
+#endif // _DEBUG_
+		
 		MenuItemSprite* sprite = (MenuItemSprite*)pSender;
 		//ÉùÒô×´Ì¬
 		bool bSoundState = !(CResManager::getInstance()->GetSoundState());

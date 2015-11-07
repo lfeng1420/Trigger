@@ -335,7 +335,9 @@ bool CDataManager::SaveUserData()
 	fputs(oBuffer.GetString(), pFile);
 	fclose(pFile);
 
+#ifdef _DEBUG_
 	log("UserDataPath:%s", strPath.c_str());
+#endif
 
 	return true;
 }

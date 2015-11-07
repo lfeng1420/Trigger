@@ -294,7 +294,11 @@ void CThemeScene::InitScrollView()
 
 	m_iSelectTheme = UserDefault::getInstance()->getIntegerForKey("Theme", -1);
 	int iLevel = UserDefault::getInstance()->getIntegerForKey("Level", 0);
+
+#ifdef _DEBUG_
 	log("iTheme=%d, iLevel=%d", m_iSelectTheme, iLevel);
+#endif // _DEBUG_
+	
 	if (m_iSelectTheme < 0)
 	{
 		//默认显示主题选择界面
@@ -337,7 +341,11 @@ void CThemeScene::BuildLevel()
 	//检查当前未通过的关卡
 	int iUnpassLevel = CDataManager::getInstance()->GetUnpassLevel();
 	int iRunningTheme = iUnpassLevel / Level_Num;
+
+#ifdef _DEBUG_
 	log("BuildLevel: m_iSelectTheme = %d iUnpassLevel=%d", m_iSelectTheme, iUnpassLevel);
+#endif // _DEBUG_
+	
 	if (m_iSelectTheme < iRunningTheme)
 	{
 		iPassLevel = Level_Num - 1;
@@ -454,7 +462,10 @@ void CThemeScene::CreateTouchListener()
 			}
 
 			//检查是不是要滑回菜单界面
+#ifdef _DEBUG_
 			log("%f %f %f", destPos.y, m_themeTouchPos.y, m_themeOffsetPos.y);
+#endif // _DEBUG_
+			
 			if (destPos.y - m_themeTouchPos.y + m_themeOffsetPos.y < -100)
 			{
 				//返回菜单界面
@@ -478,7 +489,10 @@ void CThemeScene::CreateTouchListener()
 			{
 				iLevel += 1;
 			}
+
+#ifdef _DEBUG_
 			log("iLevel = %d", iLevel);
+#endif // _DEBUG_
 
 			//调整偏移
 			m_pLevelScrollView->setContentOffset(Vec2(0, iLevel * Level_Height + fMinOffset));
@@ -509,7 +523,10 @@ void CThemeScene::CreateTouchListener()
 //点击菜单项
 void CThemeScene::OnMenuClick(Ref* pSender, int iIndex)
 {
+#ifdef _DEBUG_
 	log("OnMenuClick %d", iIndex);
+#endif // _DEBUG_
+	
 	if (iIndex < BtnIndex_Back)
 	{
 		m_iSelectTheme = iIndex;

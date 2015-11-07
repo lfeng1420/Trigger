@@ -302,13 +302,19 @@ void CGameScene::InitHexagon(float fTopHeight, float fBottomHeight)
 				//找左侧最小的空白区域宽度
 				if (fLeftBlankMinWidth > fCurX)
 				{
+#ifdef _DEBUG_
 					log("Left: %f <=> %f", fLeftBlankMinWidth, fCurX);
+#endif // _DEBUG
+					
 					fLeftBlankMinWidth = fCurX;
 				}
 				//找右侧最小的空白区域宽度
 				if (fRightBlankMinWidth > fScreenWidth - fCurX - hexagonSize.width)
 				{
+#ifdef _DEBUG_
 					log("Right: %f <=> %f", fRightBlankMinWidth, fScreenWidth - fCurX - hexagonSize.width);
+#endif // _DEBUG
+					
 					fRightBlankMinWidth = fScreenWidth - fCurX - hexagonSize.width;
 				}
 
@@ -348,20 +354,32 @@ void CGameScene::InitHexagon(float fTopHeight, float fBottomHeight)
 		int iArrowType = pMapInfo->vecMapItem[i].iType;
 		if (!m_arrHexagon[iRowIdx][iColIdx].GetValid())
 		{
+#ifdef _DEBUG_
 			log("Hexagon in pos(%d, %d) is invalid. iType=%d", iRowIdx, iColIdx, iArrowType);
+#endif // _DEBUG
+			
 			continue;
 		}
 
+#ifdef _DEBUG_
 		log("Set hexagon in pos(%d, %d) arrow type=%d", iRowIdx, iColIdx, iArrowType);
+#endif // _DEBUG
+		
 		m_arrHexagon[iRowIdx][iColIdx].SetArrow(iArrowType, true);
 	}
 
 
 	//两侧的最小空白区域宽度要相等
+#ifdef _DEBUG_
 	log("%f, %f", fLeftBlankMinWidth, fRightBlankMinWidth);
+#endif // _DEBUG
+	
 	m_fGatherOffset.x = (fRightBlankMinWidth - fLeftBlankMinWidth) / 2;
 	m_fGatherOffset.y = -(fTopHeight - fBottomHeight - (fTopHeight - fCurHeight) - fHexagonPadding) / 2;
+#ifdef _DEBUG_
 	log("fTopHeight=%f, fBottomHeight=%f, fMapHeight=%f  m_fGatherOffsetY=%f", fTopHeight, fBottomHeight, fCurHeight, m_fGatherOffset.y);
+#endif // _DEBUG
+	
 	//是否需要执行动作
 	bool bActionFlag = UserDefault::getInstance()->getBoolForKey("HexagonAction", true);
 	if (bActionFlag)
@@ -957,7 +975,9 @@ void CGameScene::ChangeWithoutArrow(int iRowIndex, int iColIndex)
 		{
 			int iArrowType = m_arrHexagon[iRowIdx][iColIdx].GetArrow();
 			int iChangedArrowType = GetChangedArrow(i, iArrowType);
+#ifdef _DEBUG_
 			log("[%d][%d]: iArrowType=%d->%d", iRowIdx, iColIdx, iArrowType, iChangedArrowType);
+#endif
 			if (iChangedArrowType == iArrowType)
 			{
 				//没有改变时置为None
