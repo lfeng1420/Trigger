@@ -4,7 +4,7 @@
 
 using namespace std;
 
-//#define _DEBUG_
+#define _DEBUG_
 
 // 获取实际关卡序号，x为地图编号(从0开始)，y为当前关卡编号
 #define GET_ACTUAL_LEVEL(x, y)  ((x) * 20 + (y))

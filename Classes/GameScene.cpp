@@ -506,7 +506,7 @@ void CGameScene::CreateTouchListener()
 		Vec2 touchPos = target->convertToNodeSpace(touch->getLocation());
 		
 		//如果点击了某个六边形，则设置为不可触摸，否则设置为可触摸
-		m_bCanClicked = !CheckHexagonClick(touchPos);
+		m_bCanClicked = CheckHexagonClick(touchPos);
 	};
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
 }
@@ -528,14 +528,13 @@ bool CGameScene::CheckHexagonClick(cocos2d::Vec2 touchPos)
 					- nodeSize.height / 2 + m_fGatherOffset.y, nodeSize.width, nodeSize.height);
 				if (hexagonRect.containsPoint(touchPos))
 				{
-					OnHexagonClick(i, j);
-					return true;
+					return OnHexagonClick(i, j);
 				}
 			}
 		}
 	}
 
-	return false;
+	return true;
 }
 
 
@@ -564,7 +563,7 @@ public:
 
 
 //六边形点击处理
-void CGameScene::OnHexagonClick(int iRowIndex, int iColIndex)
+bool CGameScene::OnHexagonClick(int iRowIndex, int iColIndex)
 {
 #ifdef _DEBUG_
 	log("OnHexagonClick:%d %d", iRowIndex, iColIndex);
@@ -588,7 +587,8 @@ void CGameScene::OnHexagonClick(int iRowIndex, int iColIndex)
 			//重置索引
 			m_iClickUserItemIndex = -1;
 		}
-		return;
+
+		return true;
 	}
 
 	//根据点击的六边形是否有箭头进行分别处理
@@ -613,6 +613,8 @@ void CGameScene::OnHexagonClick(int iRowIndex, int iColIndex)
 
 	//0.32秒后检查是否通关
 	scheduleOnce(schedule_selector(CGameScene::CheckGameOver), 0.30f);
+
+	return false;
 }
 
 

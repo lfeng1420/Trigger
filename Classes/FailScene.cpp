@@ -1,5 +1,6 @@
 #include "FailScene.h"
 #include "GameScene.h"
+#include "ThemeScene.h"
 
 USING_NS_CC;
 
@@ -80,6 +81,6 @@ void CFailScene::OnMenuCallback(cocos2d::Ref* pSender, int iIndex)
 	//²Ëµ¥°´Å¥ÏìÓ¦
 	if (1 == iIndex)
 	{
-
+		Director::getInstance()->replaceScene(CThemeScene::CreateScene());
 	}
 }

@@ -151,8 +151,8 @@ public:
 	//检查是哪个六边形被点击
 	bool CheckHexagonClick(cocos2d::Vec2 touchPos);
 
-	//六边形点击处理
-	void OnHexagonClick(int iRowIndex, int iColIndex);
+	//六边形点击处理，返回值表示是否可以继续点击
+	bool OnHexagonClick(int iRowIndex, int iColIndex);
 
 	//点击按钮响应
 	void OnButtonClick(Ref* pSender, int iIndex);

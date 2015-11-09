@@ -323,7 +323,7 @@ void CMenuScene::CreateKeyListener()
 			//±£´æÉùÒô×´Ì¬
 			CResManager::getInstance()->SaveSoundState();
 
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
 			Director::getInstance()->end();
 #endif
 		}
