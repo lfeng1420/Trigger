@@ -1,5 +1,5 @@
 #pragma once
-#include "cocos2d.h"
+#include "GlobalDef.h"
 #include "cocos-ext.h"
 
 USING_NS_CC_EXT;
@@ -49,17 +49,13 @@ class CThemeScene : public cocos2d::Layer, public ScrollViewDelegate
 public:
 	enum
 	{
-		Theme_Num = 10,			//主题数
+		BACKBTN_INDEX = 10,
 
-		Level_Num = 20,			//关卡数
+		LEVEL_HEIGHT = 146,		//关卡Sprite高度
 
-		BtnIndex_Back = 10,
+		THEME_HEIGHT = 134,		//主题Sprite高度
 
-		Level_Height = 146,		//关卡Sprite高度
-
-		Theme_Height = 134,		//主题Sprite高度
-
-		SpriteTag_LevelUnit = 1420,	//Sprite标签 - 关卡
+		SPRITETAG_LEVELUNIT = 1420,	//Sprite标签 - 关卡
 	};
 
 private:
@@ -73,7 +69,7 @@ private:
 
 	cocos2d::Vector<cocos2d::Sprite *> m_themeSprVec;	//主题Sprite序列
 
-	LevelSpr m_oLevelSpr[Level_Num];		//关卡Sprite数组
+	LevelSpr m_oLevelSpr[LEVEL_NUM];		//关卡Sprite数组
 
 	cocos2d::Sprite* m_pBgSprite;	//背景图片
 

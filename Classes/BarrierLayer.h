@@ -1,5 +1,5 @@
 #pragma once
-#include "cocos2d.h"
+#include "GlobalDef.h"
 
 class CBarrierLayer : public cocos2d::Layer
 {

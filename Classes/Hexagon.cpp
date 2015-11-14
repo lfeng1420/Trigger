@@ -72,7 +72,7 @@ void CHexagon::SetArrow(int iArrow, bool bRealSet)
 	}
 
 	//无箭头
-	if (m_iArrow == HexagonArrow_None)
+	if (iArrow == HexagonArrow_None)
 	{
 		m_pArrowSprite->setVisible(false);
 		return;
@@ -84,12 +84,12 @@ void CHexagon::SetArrow(int iArrow, bool bRealSet)
 	if (m_iColor == HexagonColor_White)
 	{
 		int iThemeColor = CDataManager::getInstance()->GetCurThemeColor();
-		sprintf(name, "item_%d_%d.png", m_iArrow, iThemeColor);
+		sprintf(name, "item_%d_%d.png", iArrow, iThemeColor);
 	}
 	else if (m_iColor == HexagonColor_Theme)
 	{
 		//如果背景是主题色，则箭头应该是白色
-		sprintf(name, "item_%d_w.png", m_iArrow);
+		sprintf(name, "item_%d_w.png", iArrow);
 	}
 
 	//设置Sprite
@@ -160,11 +160,18 @@ void CHexagon::SetNum(int iNum)
 
 	//Sprite名称
 	char name[20];
-	int iThemeColor = CDataManager::getInstance()->GetCurThemeColor();
-	sprintf(name, "number_%d_%d.png", iThemeColor, m_iNum);
+	if (HexagonColor_White == m_iColor)
+	{
+		int iThemeColor = CDataManager::getInstance()->GetCurThemeColor();
+		sprintf(name, "number_%d_%d.png", iThemeColor, m_iNum);
+	}
+	else if (HexagonColor_Theme == m_iColor)
+	{
+		sprintf(name, "number_w_%d.png", m_iNum);
+	}
 	
-	m_pNumSprite->setSpriteFrame(CResManager::getInstance()->GetSpriteFrame(name));
 	m_pNumSprite->setScale(0.5f);
+	m_pNumSprite->setSpriteFrame(CResManager::getInstance()->GetSpriteFrame(name));
 	m_pNumSprite->setVisible(true);
 	SetArrow(HexagonArrow_Hexagon, false);
 }

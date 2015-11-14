@@ -1,4 +1,5 @@
 #pragma once
+#include "cocos2d.h"
 #include <algorithm>
 #include <vector>
 
@@ -53,3 +54,16 @@ enum HexagonColor
 	HexagonColor_Theme,			//与主题颜色相同
 };
 
+enum 
+{
+	TOTAL_LEVEL_NUM = 200,
+	THEME_NUM = 10,
+	LEVEL_NUM = 20,
+	COLUMN_MAX = 7,
+	ROW_MAX = 9,
+	BEAT_TIME_LIMIT = -10,
+	ACTION_REBOUND_LEN = 20,
+	MENU_SCENE_TAG = 1420,
+	LEVEL_INDEX_MAX = 19,
+	THEME_INDEX_MAX = 9,
+};

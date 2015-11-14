@@ -1,5 +1,4 @@
 #include "ResManager.h"
-#include "GlobalDef.h"
 
 USING_NS_CC;
 

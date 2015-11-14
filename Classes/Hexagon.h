@@ -1,5 +1,4 @@
 #pragma once
-#include "cocos2d.h"
 #include "GlobalDef.h"
 
 class CHexagon : public cocos2d::Node

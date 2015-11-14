@@ -9,13 +9,6 @@ private:
 	cocos2d::Sprite* m_soundOffSprite1;
 	cocos2d::Sprite* m_soundOffSprite2;
 
-	enum
-	{
-		ACTION_REBOUND_LEN = 20,
-		THEME_LEVEL_NUM = 20,
-		MENU_SCENE_TAG = 1420,
-	};
-
 public:
 	CMenuScene();
 	~CMenuScene();

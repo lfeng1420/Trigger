@@ -10,9 +10,6 @@ USING_NS_CC;
 const char* MAP_FILE_PATH = "maps/levelmap.json";
 const char* SAVE_DATA_PATH = "/LocalStorage.json";
 
-//关卡数量：200
-const int LEVELNUM = 200;
-
 //单例模式
 static CDataManager* _dataManager = nullptr;
 
@@ -186,7 +183,7 @@ void CDataManager::InitUserData(const char* pName)
 	m_stUserInfo.iLevel = 0;
 	m_stUserInfo.iScore = 0;
 
-	for (int i = 0; i < LEVELNUM; i++)
+	for (int i = 0; i < TOTAL_LEVEL_NUM; i++)
 	{
 		m_stUserInfo.vecData.push_back(0);
 		oArray.PushBack(0, allocator);

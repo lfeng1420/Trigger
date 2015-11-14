@@ -63,7 +63,7 @@ void CThemeScene::InitBGAndBtn()
 	m_pBackBtn = MenuItemSprite::create(
 		Sprite::createWithSpriteFrameName("btn_back.png"),
 		Sprite::createWithSpriteFrameName("btn_back.png"),
-		CC_CALLBACK_1(CThemeScene::OnMenuClick, this, BtnIndex_Back)
+		CC_CALLBACK_1(CThemeScene::OnMenuClick, this, BACKBTN_INDEX)
 	);
 	Size backBtnSize = m_pBackBtn->getContentSize();
 	m_pBackBtn->setPosition(backBtnSize.height, m_visibleSize.height - backBtnSize.height);
@@ -103,14 +103,14 @@ void CThemeScene::InitThemeLayer()
 
 	//获取未通过的关卡
 	int iUnpassLevel = CDataManager::getInstance()->GetUnpassLevel();
-	int iUnpassTheme = iUnpassLevel / Level_Num;
+	int iUnpassTheme = iUnpassLevel / LEVEL_NUM;
 
 	char arrSpriteName[20] = { '\0' };
 
 	//重置位置
 	float fCurX = fScreenWidth * 0.5f;
 	float fCurY = fScreenHeight;
-	for (int i = 0; i < Theme_Num; i++)
+	for (int i = 0; i < THEME_NUM; i++)
 	{
 		sprintf(arrSpriteName, "%d.png", i);
 		auto sprite = Sprite::createWithSpriteFrameName(arrSpriteName);
@@ -198,10 +198,10 @@ void CThemeScene::InitLevelLayer()
 	Size numSize = m_oLevelSpr[0].GetNumSize();
 	Size starSize = m_oLevelSpr[0].GetStarSize();
 	float fCurY = m_visibleSize.height;
-	for (int i = 0; i < Level_Num; i++)
+	for (int i = 0; i < LEVEL_NUM; i++)
 	{
 		auto levelNode = Node::create();
-		levelNode->setContentSize(Size(m_visibleSize.width, Level_Height));
+		levelNode->setContentSize(Size(m_visibleSize.width, LEVEL_HEIGHT));
 
 		//初始化
 		m_oLevelSpr[i].SetLock(0);
@@ -221,7 +221,7 @@ void CThemeScene::InitLevelLayer()
 
 		levelNode->setPosition(0, fCurY);
 		m_pLevelLayer->addChild(levelNode);
-		fCurY -= Level_Height;
+		fCurY -= LEVEL_HEIGHT;
 	}
 }
 
@@ -235,7 +235,7 @@ void CThemeScene::InitScrollView()
 	InitLevelLayer();
 	m_pLevelScrollView->setContainer(m_pLevelLayer);
 	//内容大小
-	m_pLevelScrollView->setContentSize(Size(m_visibleSize.width, Level_Height * Level_Num));
+	m_pLevelScrollView->setContentSize(Size(m_visibleSize.width, LEVEL_HEIGHT * LEVEL_NUM));
 
 	//设置位置
 	m_pLevelScrollView->setPosition(Vec2::ZERO);
@@ -244,7 +244,7 @@ void CThemeScene::InitScrollView()
 	m_pLevelScrollView->setViewSize(m_visibleSize);
 
 	//设置偏移
-	float fMinOffset = -m_visibleSize.height / 2 - Level_Height / 2;
+	float fMinOffset = -m_visibleSize.height / 2 - LEVEL_HEIGHT / 2;
 	m_pLevelScrollView->setContentOffset(Vec2(0, fMinOffset));
 
 	//设置不可触摸
@@ -275,7 +275,7 @@ void CThemeScene::InitScrollView()
 	m_pThemeScrollView->setContentOffset(Vec2::ZERO);
 
 	//设置所有内容大小
-	m_pThemeScrollView->setContentSize(Size(m_visibleSize.width, Theme_Height * Theme_Num));
+	m_pThemeScrollView->setContentSize(Size(m_visibleSize.width, THEME_HEIGHT * THEME_NUM));
 
 	//设置不可触摸
 	m_pThemeScrollView->setTouchEnabled(false);
@@ -310,7 +310,7 @@ void CThemeScene::InitScrollView()
 		//构建关卡列表
 		BuildLevel();
 
-		//默认显示主题选择界面
+		//默认显示关卡选择界面
 		m_pLevelScrollView->setVisible(true);
 		m_pThemeScrollView->setVisible(false);
 
@@ -324,8 +324,16 @@ void CThemeScene::InitScrollView()
 		}
 
 		//设置关卡列表偏移
-		float fOffset = iLevel * Level_Height + fMinOffset;
-		m_pLevelScrollView->setContentOffset(Vec2(0, fOffset));
+		float fLevelOffset = iLevel * LEVEL_HEIGHT + fMinOffset;
+		m_pLevelScrollView->setContentOffset(Vec2(0, fLevelOffset));
+
+		float fThemeOffsetY = UserDefault::getInstance()->getIntegerForKey("ThemeOffsetY", 0);
+		m_pThemeScrollView->setContentOffset(Vec2(0, fThemeOffsetY));
+
+		//重置保存的数据，避免影响下一次操作
+		UserDefault::getInstance()->setIntegerForKey("Theme", -1);
+		UserDefault::getInstance()->setIntegerForKey("Level", 0);
+		UserDefault::getInstance()->setIntegerForKey("ThemeOffsetY", 0);
 	}
 }
 
@@ -340,7 +348,7 @@ void CThemeScene::BuildLevel()
 
 	//检查当前未通过的关卡
 	int iUnpassLevel = CDataManager::getInstance()->GetUnpassLevel();
-	int iRunningTheme = iUnpassLevel / Level_Num;
+	int iRunningTheme = iUnpassLevel / LEVEL_NUM;
 
 #ifdef _DEBUG_
 	log("BuildLevel: m_iSelectTheme = %d iUnpassLevel=%d", m_iSelectTheme, iUnpassLevel);
@@ -348,11 +356,11 @@ void CThemeScene::BuildLevel()
 	
 	if (m_iSelectTheme < iRunningTheme)
 	{
-		iPassLevel = Level_Num - 1;
+		iPassLevel = LEVEL_NUM - 1;
 	}
 	else if (m_iSelectTheme == iRunningTheme)
 	{
-		iPassLevel = iUnpassLevel - iUnpassLevel / Level_Num * Level_Num;
+		iPassLevel = iUnpassLevel - iUnpassLevel / LEVEL_NUM * LEVEL_NUM;
 	}
 
 	//解锁的部分需要显示关卡数字
@@ -369,7 +377,7 @@ void CThemeScene::BuildLevel()
 	}
 
 	//剩下的是锁住的关卡
-	for (int i = iPassLevel + 1; i < Level_Num; i++)
+	for (int i = iPassLevel + 1; i < LEVEL_NUM; i++)
 	{
 		m_oLevelSpr[i].SetLock(m_iSelectTheme);
 		m_oLevelSpr[i].SetLockState(true);
@@ -419,8 +427,8 @@ void CThemeScene::CreateTouchListener()
 			Vec2 destPos = touch->getLocation();
 			float fCurY = destPos.y - m_levelTouchPos.y + m_levelOffsetPos.y;
 			float fHalfHeight = m_visibleSize.height / 2;
-			float fMaxOffset = Level_Height * (Level_Num - 1) - fHalfHeight - Level_Height / 2;
-			float fMinOffset = -fHalfHeight - Level_Height / 2;
+			float fMaxOffset = LEVEL_HEIGHT * (LEVEL_NUM - 1) - fHalfHeight - LEVEL_HEIGHT / 2;
+			float fMinOffset = -fHalfHeight - LEVEL_HEIGHT / 2;
 			if (fCurY < fMinOffset)
 			{
 				fCurY = fMinOffset;
@@ -480,12 +488,12 @@ void CThemeScene::CreateTouchListener()
 			
 			//计算滑动到当前关卡的位置
 			float fHalfHeight = m_visibleSize.height / 2;
-			float fMinOffset = -fHalfHeight - Level_Height / 2;
+			float fMinOffset = -fHalfHeight - LEVEL_HEIGHT / 2;
 			float fCurOffset = offsetPos.y - fMinOffset;
 
 			//当前关卡
-			int iLevel = ((int)fCurOffset) / Level_Height;
-			if (fCurOffset > (iLevel + 0.5f) * Level_Height)
+			int iLevel = ((int)fCurOffset) / LEVEL_HEIGHT;
+			if (fCurOffset > (iLevel + 0.5f) * LEVEL_HEIGHT)
 			{
 				iLevel += 1;
 			}
@@ -495,7 +503,7 @@ void CThemeScene::CreateTouchListener()
 #endif // _DEBUG_
 
 			//调整偏移
-			m_pLevelScrollView->setContentOffset(Vec2(0, iLevel * Level_Height + fMinOffset));
+			m_pLevelScrollView->setContentOffset(Vec2(0, iLevel * LEVEL_HEIGHT + fMinOffset));
 
 			//滑动距离小于20算作点击，解锁的情况下才可以进入游戏
 			bool bLockState = m_oLevelSpr[iLevel].GetLockState();
@@ -505,6 +513,10 @@ void CThemeScene::CreateTouchListener()
 				//记录当前主题和关卡
 				UserDefault::getInstance()->setIntegerForKey("Theme", m_iSelectTheme);
 				UserDefault::getInstance()->setIntegerForKey("Level", iLevel);
+
+				//记录此时主题ScrollView偏移
+				float fThemeOffsetY = m_pThemeScrollView->getContentOffset().y;
+				UserDefault::getInstance()->setIntegerForKey("ThemeOffsetY", fThemeOffsetY);
 
 				//设置需要执行动作
 				UserDefault::getInstance()->setBoolForKey("HexagonAction", true);
@@ -527,7 +539,7 @@ void CThemeScene::OnMenuClick(Ref* pSender, int iIndex)
 	log("OnMenuClick %d", iIndex);
 #endif // _DEBUG_
 	
-	if (iIndex < BtnIndex_Back)
+	if (iIndex < BACKBTN_INDEX)
 	{
 		m_iSelectTheme = iIndex;
 		//根据选择的主题设置背景
@@ -539,7 +551,7 @@ void CThemeScene::OnMenuClick(Ref* pSender, int iIndex)
 		//主题列表执行动作，从选择的主题开始分开往上/下移动
 		TakeThemeAction(true);
 	}
-	else if (iIndex == BtnIndex_Back)
+	else if (iIndex == BACKBTN_INDEX)
 	{
 		//主题列表重新聚合
 		TakeThemeAction(false);
@@ -596,7 +608,7 @@ void CThemeScene::OnThemeActionCallback(Node* pSender, bool bMoveOut)
 		m_pBackBtn->setVisible(false);
 		//设置偏移
 		float fHalfHeight = m_visibleSize.height / 2;
-		m_pLevelScrollView->setContentOffset(Vec2(0, -fHalfHeight - Level_Height / 2));
+		m_pLevelScrollView->setContentOffset(Vec2(0, -fHalfHeight - LEVEL_HEIGHT / 2));
 	}
 }
 
@@ -702,7 +714,7 @@ void LevelSpr::SetPos(bool bDoubleNum)
 
 	//数字位置：区分两位和一位
 	float fCurX = visibleSize.width / 2;
-	float fCurY = CThemeScene::Level_Height / 2;
+	float fCurY = CThemeScene::LEVEL_HEIGHT / 2;
 	if (bDoubleNum)
 	{
 		m_pNumDecSpr->setPosition(fCurX - fPadding / 2 - numSize.width / 2, fCurY);
@@ -716,16 +728,16 @@ void LevelSpr::SetPos(bool bDoubleNum)
 	fCurX += numSize.width + 10;
 
 	float fStarPadding = 4;
-	fCurY = CThemeScene::Level_Height / 2 - starSize.height / 2 - fStarPadding / 2;
+	fCurY = CThemeScene::LEVEL_HEIGHT / 2 - starSize.height / 2 - fStarPadding / 2;
 	m_pStarSpr[0]->setPosition(fCurX + numSize.width / 2, fCurY);
 
-	fCurY = CThemeScene::Level_Height / 2 + starSize.height / 2 + fStarPadding / 2;
+	fCurY = CThemeScene::LEVEL_HEIGHT / 2 + starSize.height / 2 + fStarPadding / 2;
 	m_pStarSpr[2]->setPosition(fCurX + numSize.width / 2, fCurY);
 	
 	fCurX += starSize.width + starSize.height / 2;
-	m_pStarSpr[1]->setPosition(fCurX, CThemeScene::Level_Height / 2);
+	m_pStarSpr[1]->setPosition(fCurX, CThemeScene::LEVEL_HEIGHT / 2);
 
-	m_pLockSpr->setPosition(visibleSize.width / 2, CThemeScene::Level_Height / 2);
+	m_pLockSpr->setPosition(visibleSize.width / 2, CThemeScene::LEVEL_HEIGHT / 2);
 }
 
 void LevelSpr::SetStar(int iScore)

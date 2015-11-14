@@ -61,6 +61,9 @@ bool CGameScene::init()
 	//点击监听
 	CreateTouchListener();
 
+	//按键监听
+	CreateKeyListener();
+
 	return true;
 }
 
@@ -177,7 +180,7 @@ float CGameScene::InitBeatInfo(float fTopHeight)
 		}
 		else
 		{
-			sprite = Sprite::createWithSpriteFrameName("number_r_11.png");
+			sprite = Sprite::create("images/line.png");
 		}
 
 		//集合
@@ -1002,4 +1005,22 @@ void CGameScene::OnTimeCallback(Node* pSender, bool bPassFlag)
 	{
 		LevelFail();
 	}
+}
+
+
+//创建按键监听器，主要监听返回键
+void CGameScene::CreateKeyListener()
+{
+	auto keyListener = EventListenerKeyboard::create();
+	keyListener->onKeyReleased = [&](EventKeyboard::KeyCode keyCode, Event* event)
+	{
+		if (EventKeyboard::KeyCode::KEY_RETURN == keyCode ||
+			EventKeyboard::KeyCode::KEY_ESCAPE == keyCode ||
+			EventKeyboard::KeyCode::KEY_BACKSPACE == keyCode)
+		{
+			OnButtonClick(nullptr, 0);
+		}
+	};
+
+	Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(keyListener, this);
 }

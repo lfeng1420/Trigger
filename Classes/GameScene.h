@@ -1,5 +1,4 @@
 #pragma once
-#include "cocos2d.h"
 #include "GlobalDef.h"
 #include "Hexagon.h"
 
@@ -78,14 +77,6 @@ public:
 class CGameScene : public cocos2d::LayerColor
 {
 private:
-	enum
-	{
-		COLUMN_MAX = 7,
-		ROW_MAX = 9,
-		EVERY_THEME_MAP_MAX = 20,
-		BEAT_TIME_LIMIT = -10
-	};
-
 	//六边形序列
 	CHexagon m_arrHexagon[ROW_MAX][COLUMN_MAX];
 
@@ -189,6 +180,9 @@ public:
 
 	//定时切换成功或失败界面
 	void OnTimeCallback(Node* pSender, bool bPassFlag);
+
+	//按键监听
+	void CreateKeyListener();
 
 	CREATE_FUNC(CGameScene);
 };

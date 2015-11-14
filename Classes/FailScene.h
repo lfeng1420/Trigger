@@ -1,6 +1,6 @@
 #pragma once
 
-#include "cocos2d.h"
+#include "GlobalDef.h"
 
 class CFailScene : public cocos2d::LayerColor
 {

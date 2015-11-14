@@ -225,11 +225,6 @@ void CMenuScene::OnButtonClick(Ref* pSender, int iIndex)
 #ifdef _DEBUG_
 		log("StartButton");
 #endif // _DEBUG_
-		
-
-		//Çå³ý¼ÇÂ¼
-		UserDefault::getInstance()->setIntegerForKey("Theme", -1);
-		UserDefault::getInstance()->setIntegerForKey("Level", 0);
 
 		//ÇÐ»»³¡¾°
 		auto scene = CThemeScene::CreateScene();

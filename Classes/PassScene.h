@@ -1,16 +1,10 @@
 #pragma once
 
-#include "cocos2d.h"
+#include "GlobalDef.h"
 
 class CPassScene : public cocos2d::LayerColor
 {
 private:
-	enum
-	{
-		LEVEL_INDEX_MAX = 19,
-		THEME_INDEX_MAX = 9,
-	};
-
 	int m_iCurLevel;	//当前关卡
 
 	int m_iCurTheme;	//当前主题
