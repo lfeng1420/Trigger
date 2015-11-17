@@ -630,6 +630,11 @@ void CThemeScene::CreateKeyListener()
 				auto scene = CMenuScene::CreateScene();
 				Director::getInstance()->replaceScene(TransitionSlideInT::create(0.3f, scene));
 			}
+			else
+			{
+				//如果是小关卡界面，则返回到大关卡界面
+				OnMenuClick(nullptr, BACKBTN_INDEX);
+			}
 		}
 	};
 

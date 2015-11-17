@@ -78,6 +78,9 @@ void CPauseScene::OnMenuCallback(Ref* pSender, int iIndex)
 	//继续按钮响应
 	if (1 == iIndex)
 	{
+		//设置游戏开始
+		UserDefault::getInstance()->setBoolForKey("GameStart", true);
+
 		getParent()->removeFromParent();
 		Director::getInstance()->resume();
 		return;

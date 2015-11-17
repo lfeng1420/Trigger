@@ -88,8 +88,6 @@ private:
 
 	int m_iCurLevel;		//当前关卡
 
-	bool m_bGameState;		//游戏状态
-
 	int m_iBeatTime;		//Beat次数，小于0时表示关卡预设Beat次数
 
 	cocos2d::Vec2 m_fGatherOffset;	//集合hexagon居中调整的偏移

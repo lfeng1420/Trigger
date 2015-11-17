@@ -78,6 +78,9 @@ void CGameScene::SetupLevel()
 	CDataManager::getInstance()->SetCurThemeAndLevel(m_iCurTheme, m_iCurLevel);
 
 	m_iBeatTime = CDataManager::getInstance()->GetMapInfo()->iBeat;
+
+	//设置游戏开始
+	UserDefault::getInstance()->setBoolForKey("GameStart", true);
 }
 
 
@@ -131,7 +134,7 @@ float CGameScene::InitLevelInfo()
 	float fPuzzlePadding = (fScreenWidth - fCurX) / 2;
 	float fPuzzlePosX = fPuzzlePadding + puzzleSize.width / 2;
 	//设置puzzleSprite位置
-	puzzleSprite->setPosition(fPuzzlePosX, fScreenHeight * 0.85f);
+	puzzleSprite->setPosition(fPuzzlePosX, fScreenHeight * 0.88f);
 	addChild(puzzleSprite);
 
 	//创建游戏暂停菜单
@@ -145,7 +148,7 @@ float CGameScene::InitLevelInfo()
 	//即暂停按钮到屏幕右侧之间的间距
 	float fPausePadding = (fPuzzlePadding - pauseSize.width) / 2;
 	float fPausePosX = fScreenWidth - fPausePadding - pauseSize.width / 2;
-	pauseMenuItem->setPosition(fPausePosX, fScreenHeight * 0.85f);
+	pauseMenuItem->setPosition(fPausePosX, fScreenHeight * 0.88f);
 
 	//创建菜单
 	auto menu = Menu::create(pauseMenuItem, NULL);
@@ -153,7 +156,7 @@ float CGameScene::InitLevelInfo()
 	addChild(menu);
 
 	//剩余高度
-	float fTopHeight = fScreenHeight * 0.85f - pauseSize.width - 5;
+	float fTopHeight = fScreenHeight * 0.88f - pauseSize.width;
 	return fTopHeight;
 }
 
@@ -233,7 +236,7 @@ float CGameScene::InitBeatInfo(float fTopHeight)
 	beatNode->setPosition((fScreenWidth - fCurX) / 2, fTopHeight - fBeatNumHeight / 2);
 	addChild(beatNode);
 
-	return fTopHeight - fStarWidth;
+	return fTopHeight - fStarWidth / 2;
 }
 
 //初始化地图
@@ -378,7 +381,7 @@ void CGameScene::InitHexagon(float fTopHeight, float fBottomHeight)
 #endif // _DEBUG
 	
 	m_fGatherOffset.x = (fRightBlankMinWidth - fLeftBlankMinWidth) / 2;
-	m_fGatherOffset.y = -(fTopHeight - fBottomHeight - (fTopHeight - fCurHeight) - fHexagonPadding) / 2;
+	m_fGatherOffset.y = -(fCurHeight - fBottomHeight) / 2;
 #ifdef _DEBUG_
 	log("fTopHeight=%f, fBottomHeight=%f, fMapHeight=%f  m_fGatherOffsetY=%f", fTopHeight, fBottomHeight, fCurHeight, m_fGatherOffset.y);
 #endif // _DEBUG
@@ -482,7 +485,7 @@ float CGameScene::CreateUserItemMenu()
 	menu->setPosition(Vec2::ZERO);
 	addChild(menu);
 
-	return fCurY * 1.8f / 1.2f;
+	return fCurY * 1.5f;
 }
 
 
@@ -633,6 +636,8 @@ void CGameScene::OnButtonClick(Ref* pSender, int iIndex)
 	{
 		//不需要执行动作
 		UserDefault::getInstance()->setBoolForKey("HexagonAction", false);
+		//设置游戏暂停
+		UserDefault::getInstance()->setBoolForKey("GameStart", false);
 
 		auto layer = CBarrierLayer::create();
 		layer->addChild(CPauseScene::create());
@@ -1018,7 +1023,12 @@ void CGameScene::CreateKeyListener()
 			EventKeyboard::KeyCode::KEY_ESCAPE == keyCode ||
 			EventKeyboard::KeyCode::KEY_BACKSPACE == keyCode)
 		{
-			OnButtonClick(nullptr, 0);
+			bool bStartFlag = UserDefault::getInstance()->getBoolForKey("GameStart", true);
+			if (bStartFlag)
+			{
+				UserDefault::getInstance()->setBoolForKey("GameStart", false);
+				OnButtonClick(nullptr, 0);
+			}
 		}
 	};
 
