@@ -3,7 +3,7 @@ Trigger
 ===================================
 总结
 ---
-第一篇总结已经发布，戳这里查看：http://lfeng1420.github.io/2015/11/08/%E3%80%8ATrigger%E3%80%8B%E7%AC%AC%E4%B8%80%E7%AF%87%EF%BC%9A%E7%AE%80%E4%BB%8B%E4%BB%A5%E5%8F%8A%E8%B5%84%E6%BA%90%E5%88%86%E6%9E%90/
+http://lfeng1420.github.io/
 
 更新日志
 ---
